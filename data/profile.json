@@ -1,0 +1,69 @@
+{
+  "projects": [
+    {
+      "name": "HawkerAI",
+      "description": "Singapore hawker dish calorie analyzer using Claude Vision API and HPB nutrition database. Upload a photo of your hawker meal and get an estimated calorie count with nutritional breakdown.",
+      "tech": ["Next.js", "Claude Vision API", "TypeScript", "Vercel"],
+      "url": null,
+      "highlights": [
+        "Production Claude API integration using vision capabilities",
+        "Deployed on Vercel",
+        "Portfolio project demonstrating applied AI engineering"
+      ]
+    },
+    {
+      "name": "ask-adhi",
+      "description": "This portfolio chatbot — a terminal-style chat interface powered by Claude API with RAG over a personal knowledge base and structured tool calling.",
+      "tech": ["Next.js", "TypeScript", "Claude API", "Supabase pgvector", "Voyage AI", "Vercel AI SDK"],
+      "url": null,
+      "highlights": [
+        "RAG over resume using Supabase pgvector and Voyage AI embeddings",
+        "Claude tool-calling orchestration with 5 structured tools",
+        "Terminal aesthetic with randomised accent color per session"
+      ]
+    },
+    {
+      "name": "LinkedIn Post Pipeline",
+      "description": "Multi-agent pipeline for generating LinkedIn posts using CrewAI and the Anthropic Claude API.",
+      "tech": ["Python", "CrewAI", "Claude API"],
+      "url": null,
+      "highlights": [
+        "Multi-agent architecture with CrewAI",
+        "Demonstrates agentic AI engineering beyond single-model calls"
+      ]
+    },
+    {
+      "name": "Tiny Tamagotchi",
+      "description": "Virtual pet app built for the DeepLearning.AI 7-Day Learner Challenge (submitted April 2025). Built using spec-driven development via Claude Code.",
+      "tech": ["React", "TypeScript", "Vite", "Tailwind CSS", "Zustand"],
+      "url": null,
+      "highlights": [
+        "Spec-driven development workflow with Claude Code",
+        "Completed within a 7-day challenge deadline"
+      ]
+    }
+  ],
+  "skills": {
+    "languages": ["Java", "Python", "TypeScript", "JavaScript"],
+    "frameworks": ["Spring Boot", "Spring Framework", "React", "Next.js", "LangGraph", "CrewAI"],
+    "ai_and_agents": ["Claude API", "MCP (Model Context Protocol)", "LangGraph", "CrewAI", "RAG", "pgvector", "Voyage AI"],
+    "databases": ["PostgreSQL", "Supabase", "SQLite"],
+    "devops": ["GitLab CI", "Jenkins", "Vercel", "Docker"],
+    "tools": ["Claude Code", "Kafka", "Git", "GitHub Copilot"]
+  },
+  "experience": [
+    {
+      "company": "Crédit Agricole CIB",
+      "role": "Software Developer",
+      "location": "Singapore",
+      "period": "2019 – Present",
+      "focus": "Agentic AI engineering — building MCP servers for Jira, GitLab, and Control-M; architecting a multi-agent WPF-to-React migration pipeline using GitHub Copilot; Kafka SASL_SSL/SCRAM-SHA-512 integration in Spring Framework; Checkmarx security vulnerability remediation in Java."
+    }
+  ],
+  "contact": {
+    "linkedin": "https://linkedin.com/in/YOUR_HANDLE",
+    "email": "YOUR_EMAIL",
+    "github": "https://github.com/YOUR_HANDLE",
+    "location": "Singapore"
+  }
+}

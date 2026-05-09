@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ask-adhi
 
-## Getting Started
+A terminal-style portfolio chatbot for Adhi, a software developer based in Singapore. It runs in the browser as a full-screen dark monospace interface, streams responses from Claude, and answers questions about Adhi's experience, projects, and skills — all from a rich system prompt (no database, no RAG in Phase 1).
 
-First, run the development server:
+## Tech stack
+
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript (strict)
+- **Styling**: Tailwind CSS v4 + custom CSS variables
+- **AI SDK**: Vercel AI SDK (`ai`) for streaming
+- **LLM**: Anthropic Claude (`claude-sonnet-4-6`)
+- **State**: React `useState` / `useReducer`
+
+## Running locally
 
 ```bash
+npm install
+cp .env.local.example .env.local
+# Add your ANTHROPIC_API_KEY to .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Architecture notes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Phase 1 uses a single system prompt as the sole knowledge source — no database, embeddings, or tool calls. The API route at `app/api/chat/route.ts` streams responses from Claude using the Vercel AI SDK. Rate limiting is in-memory (resets on server restart). Accent color (green / amber / blue) is randomly assigned per page load via a CSS custom property on `<html>`.
 
-## Learn More
+## Phase roadmap
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Phase | Scope |
+|-------|-------|
+| **Phase 1** (this) | System-prompt chatbot, streaming, multi-turn history, rate limiting, terminal UI |
+| **Phase 2** | Supabase pgvector RAG, structured Claude tool calls, richer knowledge retrieval |
+| **Phase 3** | Vercel deployment, analytics, persistent sessions |

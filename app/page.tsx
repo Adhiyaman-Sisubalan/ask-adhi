@@ -1,65 +1,144 @@
-import Image from "next/image";
+'use client'
+
+import { useState, useCallback, useRef, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid'
+import Terminal from '@/components/Terminal'
+import MessageList from '@/components/MessageList'
+import InputBar from '@/components/InputBar'
+import { Message } from '@/types/chat'
+import { getContextualChips } from '@/lib/suggestions'
+import { pickAccent } from '@/lib/accent'
 
 export default function Home() {
+  const [messages, setMessages] = useState<Message[]>([])
+  const [isStreaming, setIsStreaming] = useState(false)
+  const [isDisabled, setIsDisabled] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [pendingChip, setPendingChip] = useState<string | undefined>(undefined)
+
+  const sessionIdRef = useRef<string>(uuidv4())
+
+  useEffect(() => {
+    const accent = pickAccent()
+    document.documentElement.style.setProperty('--accent', accent.hex)
+  }, [])
+
+  const sendMessage = useCallback(
+    async (content: string) => {
+      if (!content.trim() || isStreaming || isDisabled) return
+      setErrorMsg(null)
+
+      const userMsg: Message = {
+        id: uuidv4(),
+        role: 'user',
+        content: content.trim(),
+        timestamp: Date.now(),
+      }
+
+      const assistantId = uuidv4()
+      const assistantMsg: Message = {
+        id: assistantId,
+        role: 'assistant',
+        content: '',
+        timestamp: Date.now(),
+      }
+
+      setMessages((prev) => [...prev, userMsg, assistantMsg])
+      setIsStreaming(true)
+
+      const history: { role: 'user' | 'assistant'; content: string }[] = [
+        ...messages.map((m) => ({ role: m.role, content: m.content })),
+        { role: 'user', content: content.trim() },
+      ]
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: history,
+            sessionId: sessionIdRef.current,
+          }),
+        })
+
+        if (!res.ok) {
+          const data = (await res.json()) as { error: string; message: string }
+          if (res.status === 429) {
+            setIsDisabled(true)
+          }
+          setErrorMsg(data.message ?? 'An error occurred.')
+          setMessages((prev) => prev.filter((m) => m.id !== assistantId))
+          setIsStreaming(false)
+          return
+        }
+
+        if (!res.body) throw new Error('No response body')
+
+        const reader = res.body.getReader()
+        const decoder = new TextDecoder()
+        let accumulated = ''
+
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+
+          const chunk = decoder.decode(value, { stream: true })
+          accumulated += chunk
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantId ? { ...m, content: accumulated } : m
+            )
+          )
+        }
+
+        const chips = getContextualChips(accumulated)
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantId ? { ...m, content: accumulated, chips } : m
+          )
+        )
+      } catch (err) {
+        console.error('[page] send error:', err)
+        setErrorMsg('Connection error. Please try again.')
+        setMessages((prev) => prev.filter((m) => m.id !== assistantId))
+      } finally {
+        setIsStreaming(false)
+      }
+    },
+    [messages, isStreaming, isDisabled]
+  )
+
+  const handleChipSelect = useCallback(
+    (chip: string) => {
+      setPendingChip(chip)
+      setTimeout(() => {
+        sendMessage(chip)
+        setPendingChip(undefined)
+      }, 50)
+    },
+    [sendMessage]
+  )
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <Terminal>
+      <MessageList
+        messages={messages}
+        isStreaming={isStreaming}
+        onChipSelect={handleChipSelect}
+      />
+      {errorMsg && (
+        <div
+          className="px-6 py-2 font-mono text-[12px] shrink-0"
+          style={{ color: '#E24B4A', borderTop: '0.5px solid #1c1c1a' }}
+        >
+          {errorMsg}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+      )}
+      <InputBar
+        onSubmit={sendMessage}
+        disabled={isDisabled || isStreaming}
+        pendingValue={pendingChip}
+      />
+    </Terminal>
+  )
 }
