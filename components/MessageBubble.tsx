@@ -18,7 +18,7 @@ function renderFormattedText(text: string): React.ReactNode {
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
-        <strong key={i} style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
+        <strong key={i} style={{ color: 'var(--accent)', fontWeight: 700 }}>
           {part.slice(2, -2)}
         </strong>
       )
