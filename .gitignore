@@ -35,6 +35,7 @@ yarn-error.log*
 
 # Personal documents — embedded into Supabase, not committed
 data/resume.txt
+LINKEDIN_PROMPT.md
 
 # vercel
 .vercel

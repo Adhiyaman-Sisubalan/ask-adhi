@@ -86,7 +86,7 @@ in-memory on the API route.
 API key.
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ask-adhi.git
+git clone https://github.com/Adhiyaman-Sisubalan/ask-adhi.git
 cd ask-adhi
 npm install
 cp .env.local.example .env.local
