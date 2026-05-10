@@ -55,7 +55,7 @@ export default function InputBar({ onSubmit, disabled, shouldFocus }: InputBarPr
       <input
         ref={inputRef}
         type="text"
-        className="flex-1 bg-transparent border-none outline-none font-mono text-[13px] min-h-[44px]"
+        className="flex-1 bg-transparent border-none outline-none font-mono text-[16px] sm:text-[13px] min-h-[44px]"
         style={{ color: 'var(--text-primary)' }}
         placeholder="type your question..."
         value={value}
@@ -81,7 +81,7 @@ export default function InputBar({ onSubmit, disabled, shouldFocus }: InputBarPr
         [enter ↵]
       </span>
       <button
-        className="flex sm:hidden items-center justify-center w-8 h-8 rounded-full shrink-0 transition-opacity"
+        className="flex sm:hidden items-center justify-center w-11 h-11 rounded-full shrink-0 transition-opacity"
         style={{
           background: disabled || !value.trim() ? 'var(--border)' : 'var(--accent)',
           opacity: disabled ? 0.4 : 1,

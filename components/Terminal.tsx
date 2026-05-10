@@ -42,6 +42,11 @@ export default function Terminal({ children }: TerminalProps) {
             padding: '0 4px',
             lineHeight: 1,
             fontFamily: 'monospace',
+            minWidth: 44,
+            minHeight: 44,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           {theme === 'dark' ? '☀' : '☾'}

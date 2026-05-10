@@ -22,7 +22,7 @@ export default function ChipRow({ chips, variant, onSelect, disabled }: ChipRowP
           role="listitem"
           onClick={() => onSelect(chip)}
           disabled={disabled}
-          className="chip-btn font-mono text-[11px] px-2 sm:px-[9px] py-[3px] min-h-[36px] sm:min-h-0 flex items-center rounded-[3px] transition-colors"
+          className="chip-btn font-mono text-[11px] px-2 sm:px-[9px] py-[3px] min-h-[44px] sm:min-h-0 flex items-center rounded-[3px] transition-colors"
           style={{
             borderWidth: '0.5px',
             borderStyle: 'solid',
