@@ -4,6 +4,7 @@ export interface Message {
   content: string
   timestamp: number
   chips?: string[]
+  thinkingPhrase?: string
 }
 
 export interface ChatSession {

@@ -26,16 +26,16 @@ export function BootAnimation({ onComplete, skipAnimation = false }: BootAnimati
 
     const sequence: Array<{ id: number | 'bar1' | 'bar2'; ms: number; dur?: number }> = [
       { id: 0,      ms: 0    },
-      { id: 1,      ms: 200  },
-      { id: 'bar1', ms: 350, dur: 550 },
-      { id: 2,      ms: 950  },
-      { id: 3,      ms: 1200 },
-      { id: 4,      ms: 1600 },
-      { id: 5,      ms: 1850 },
-      { id: 'bar2', ms: 2000, dur: 500 },
-      { id: 6,      ms: 2550 },
-      { id: 7,      ms: 2800 },
-      { id: 8,      ms: 3000 },
+      { id: 1,      ms: 400  },
+      { id: 'bar1', ms: 700,  dur: 1800 },
+      { id: 2,      ms: 2600 },
+      { id: 3,      ms: 3000 },
+      { id: 4,      ms: 3800 },
+      { id: 5,      ms: 4200 },
+      { id: 'bar2', ms: 4500, dur: 1000 },
+      { id: 6,      ms: 5600 },
+      { id: 7,      ms: 5900 },
+      { id: 8,      ms: 6100 },
     ]
 
     function animateBar(
@@ -67,7 +67,7 @@ export function BootAnimation({ onComplete, skipAnimation = false }: BootAnimati
     const done = setTimeout(() => {
       sessionStorage.setItem('booted', 'true')
       onComplete()
-    }, 3400)
+    }, 6400)
     timers.push(done)
 
     return () => timers.forEach(clearTimeout)
@@ -81,7 +81,7 @@ export function BootAnimation({ onComplete, skipAnimation = false }: BootAnimati
     </>,
     <>
       <span style={{ color: 'var(--text-subtle)' }}>▸ </span>
-      <span style={{ color: '#378ADD' }}>brewing 8 years of fintech experience...</span>
+      <span style={{ color: 'var(--accent)' }}>brewing 8 years of fintech experience...</span>
     </>,
     <>
       <span style={{ color: 'var(--accent)' }}>✔</span>{' '}
@@ -90,7 +90,7 @@ export function BootAnimation({ onComplete, skipAnimation = false }: BootAnimati
     </>,
     <>
       <span style={{ color: 'var(--text-subtle)' }}>▸ </span>
-      <span style={{ color: '#378ADD' }}>calibrating personality...</span>
+      <span style={{ color: 'var(--accent)' }}>calibrating personality...</span>
     </>,
     <>
       <span style={{ color: 'var(--accent)' }}>✔</span>{' '}
@@ -99,7 +99,7 @@ export function BootAnimation({ onComplete, skipAnimation = false }: BootAnimati
     </>,
     <>
       <span style={{ color: 'var(--text-subtle)' }}>▸ </span>
-      <span style={{ color: '#378ADD' }}>loading singapore.config</span>
+      <span style={{ color: 'var(--accent)' }}>loading singapore.config</span>
     </>,
     <>
       <span style={{ color: 'var(--accent)' }}>✔</span>{' '}

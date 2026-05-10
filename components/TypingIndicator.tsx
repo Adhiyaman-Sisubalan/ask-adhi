@@ -1,14 +1,30 @@
 'use client'
 
-export default function TypingIndicator() {
+interface TypingIndicatorProps {
+  phrase?: string
+}
+
+export default function TypingIndicator({ phrase = 'querying memory' }: TypingIndicatorProps) {
   return (
-    <span
-      className="inline-block w-[7px] h-[13px] ml-0.5 align-middle"
+    <div
       style={{
-        background: 'var(--accent)',
-        animation: 'blink 1s step-end infinite',
+        fontFamily: 'monospace',
+        fontSize: 12,
+        lineHeight: 1.8,
+        color: 'var(--text-secondary)',
       }}
-      aria-label="typing"
-    />
+      aria-label="assistant is thinking"
+    >
+      <div>
+        <span style={{ color: 'var(--accent)' }}>▸</span>{' '}
+        <span>thinking...</span>
+      </div>
+      <div style={{ paddingLeft: 14, color: 'var(--text-muted)' }}>
+        <span>{phrase}</span>{' '}
+        <span style={{ color: 'var(--accent)', animation: 'blink 1s step-end infinite' }}>
+          ███▒▒▒
+        </span>
+      </div>
+    </div>
   )
 }

@@ -8,8 +8,9 @@ import InputBar from '@/components/InputBar'
 import { BootAnimation } from '@/components/BootAnimation'
 import { StatusBar } from '@/components/StatusBar'
 import { Message } from '@/types/chat'
-import { getContextualChips } from '@/lib/suggestions'
+import { excludeAnsweredQuestion, getContextualChips, pickChips } from '@/lib/suggestions'
 import { pickAccent } from '@/lib/accent'
+import { pickThinkingPhrase } from '@/lib/thinkingPhrases'
 
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([])
@@ -19,8 +20,11 @@ export default function Home() {
   const [booted, setBooted] = useState(false)
   const [checked, setChecked] = useState(false)
   const [skipAnimation, setSkipAnimation] = useState(false)
+  const [initialChips] = useState<string[]>(() => pickChips(3))
+  const handleBootComplete = useCallback(() => setBooted(true), [])
 
   const sessionIdRef = useRef<string>(uuidv4())
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const accent = pickAccent()
@@ -31,6 +35,13 @@ export default function Home() {
     }
     setChecked(true)
   }, [])
+
+  // Scroll to bottom on new messages — not during boot animation
+  useEffect(() => {
+    if (!booted) return
+    const el = scrollRef.current
+    if (el) el.scrollTop = el.scrollHeight
+  }, [messages, booted])
 
   const sendMessage = useCallback(
     async (content: string) => {
@@ -50,6 +61,7 @@ export default function Home() {
         role: 'assistant',
         content: '',
         timestamp: Date.now(),
+        thinkingPhrase: pickThinkingPhrase(),
       }
 
       setMessages((prev) => [...prev, userMsg, assistantMsg])
@@ -100,7 +112,10 @@ export default function Home() {
           )
         }
 
-        const chips = getContextualChips(accumulated)
+        const chips = excludeAnsweredQuestion(
+          getContextualChips(accumulated),
+          content.trim()
+        )
         setMessages((prev) =>
           prev.map((m) =>
             m.id === assistantId ? { ...m, content: accumulated, chips } : m
@@ -123,52 +138,62 @@ export default function Home() {
 
   return (
     <Terminal>
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-        {/* Boot lines — always mounted once checked, never removed */}
-        <div style={{ flexShrink: 0, padding: '22px 24px 8px' }}>
-          <BootAnimation
-            onComplete={() => setBooted(true)}
-            skipAnimation={skipAnimation}
-          />
-        </div>
-
-        {/* Chat — fades in below boot lines, scrollable */}
+      {/* Single unified scroll body — boot lines + chat in one continuous flow */}
+      <div
+        ref={scrollRef}
+        style={{
+          flex: 1,
+          overflowY: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '22px 24px',
+          gap: 4,
+        }}
+      >
+        <BootAnimation
+          onComplete={handleBootComplete}
+          skipAnimation={skipAnimation}
+        />
+        {/* Chat fades in below boot lines — flows in the same scroll context */}
         <div
           style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: 0,
             opacity: booted ? 1 : 0,
             transition: 'opacity 0.4s ease',
             pointerEvents: booted ? 'auto' : 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 16,
+            marginTop: 8,
           }}
         >
           <MessageList
             messages={messages}
             isStreaming={isStreaming}
             onChipSelect={sendMessage}
-          />
-          {errorMsg && (
-            <div
-              className="px-6 py-2 font-mono text-[12px] shrink-0"
-              style={{ color: '#E24B4A', borderTop: '0.5px solid var(--border-subtle)' }}
-            >
-              {errorMsg}
-            </div>
-          )}
-          <InputBar
-            onSubmit={sendMessage}
-            disabled={!booted || isDisabled || isStreaming}
-            shouldFocus={booted && !isStreaming}
-          />
-          <StatusBar
-            isThinking={isStreaming}
-            messageCount={userMessageCount}
-            isLimitReached={isDisabled}
+            initialChips={initialChips}
           />
         </div>
       </div>
+
+      {/* Fixed bottom — outside scroll */}
+      {errorMsg && (
+        <div
+          className="px-6 py-2 font-mono text-[12px] shrink-0"
+          style={{ color: '#E24B4A', borderTop: '0.5px solid var(--border-subtle)' }}
+        >
+          {errorMsg}
+        </div>
+      )}
+      <InputBar
+        onSubmit={sendMessage}
+        disabled={!booted || isDisabled || isStreaming}
+        shouldFocus={booted && !isStreaming}
+      />
+      <StatusBar
+        isThinking={isStreaming}
+        messageCount={userMessageCount}
+        isLimitReached={isDisabled}
+      />
     </Terminal>
   )
 }

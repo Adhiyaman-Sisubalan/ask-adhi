@@ -1,11 +1,14 @@
 'use client'
 
 import React from 'react'
+import ChipRow from './ChipRow'
+import TypingIndicator from './TypingIndicator'
 
 interface MessageBubbleProps {
   role: 'user' | 'assistant'
   content: string
   chips?: string[]
+  thinkingPhrase?: string
   globalStreaming?: boolean
   onChipSelect: (chip: string) => void
 }
@@ -24,7 +27,14 @@ function renderWithBold(text: string): React.ReactNode {
   })
 }
 
-export default function MessageBubble({ role, content, chips, globalStreaming, onChipSelect }: MessageBubbleProps) {
+export default function MessageBubble({
+  role,
+  content,
+  chips,
+  thinkingPhrase,
+  globalStreaming,
+  onChipSelect,
+}: MessageBubbleProps) {
   if (role === 'user') {
     return (
       <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
@@ -56,6 +66,9 @@ export default function MessageBubble({ role, content, chips, globalStreaming, o
 
   return (
     <div style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {!bodyText && globalStreaming && (
+        <TypingIndicator phrase={thinkingPhrase} />
+      )}
       {bodyText && (
         <div style={{ fontFamily: 'monospace', fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.75 }}>
           {renderWithBold(bodyText)}
@@ -67,31 +80,12 @@ export default function MessageBubble({ role, content, chips, globalStreaming, o
         </div>
       )}
       {chips && chips.length > 0 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 4 }}>
-          {chips.map(chip => (
-            <button
-              key={chip}
-              onClick={() => !globalStreaming && onChipSelect(chip)}
-              disabled={globalStreaming}
-              style={{
-                border: '0.5px solid var(--border)',
-                color: 'var(--text-muted)',
-                fontSize: 11,
-                padding: '4px 10px',
-                borderRadius: 3,
-                fontFamily: 'monospace',
-                background: 'transparent',
-                cursor: globalStreaming ? 'not-allowed' : 'pointer',
-                minHeight: 44,
-                display: 'flex',
-                alignItems: 'center',
-                opacity: globalStreaming ? 0.4 : 1,
-              }}
-            >
-              {chip}
-            </button>
-          ))}
-        </div>
+        <ChipRow
+          chips={chips}
+          variant="contextual"
+          onSelect={onChipSelect}
+          disabled={globalStreaming}
+        />
       )}
     </div>
   )
