@@ -99,6 +99,7 @@ ANTHROPIC_API_KEY=
 VOYAGE_API_KEY=
 SUPABASE_URL=
 SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
 ```
 
 Set up the Supabase vector table by running `supabase/schema.sql` in your Supabase

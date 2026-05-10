@@ -22,6 +22,24 @@ create index if not exists documents_embedding_idx
 -- belt-and-suspenders, but correct to document.
 alter table documents disable row level security;
 
+-- Visitor question logs.
+-- Keep this private: the app writes with the server-side service role key,
+-- and no public read policy is added for anon clients.
+create table if not exists question_logs (
+  id         bigserial primary key,
+  session_id text        not null,
+  question   text        not null check (char_length(question) <= 2000),
+  created_at timestamptz default now()
+);
+
+create index if not exists question_logs_created_at_idx
+  on question_logs (created_at desc);
+
+create index if not exists question_logs_session_id_idx
+  on question_logs (session_id);
+
+alter table question_logs enable row level security;
+
 -- Match function used by vectorStore.ts
 create or replace function match_documents(
   query_embedding vector(512),

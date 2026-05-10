@@ -4,6 +4,26 @@ import { validateEnv } from '@/lib/env'
 import { checkRateLimit, recordMessage } from '@/lib/rateLimit'
 import { SYSTEM_PROMPT } from '@/lib/systemPrompt'
 import { tools } from '@/lib/tools'
+import { logQuestion } from '@/lib/questionLog'
+
+interface IncomingMessage {
+  role?: unknown
+  content?: unknown
+}
+
+function getLatestUserQuestion(messages: unknown): string | null {
+  if (!Array.isArray(messages)) return null
+
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const message = messages[i] as IncomingMessage
+    if (message.role === 'user' && typeof message.content === 'string') {
+      const question = message.content.trim()
+      return question.length > 0 ? question : null
+    }
+  }
+
+  return null
+}
 
 // Validate on cold start — fails loudly if keys are missing
 try {
@@ -49,6 +69,11 @@ export async function POST(req: Request) {
   recordMessage(sessionId)
 
   try {
+    const latestQuestion = getLatestUserQuestion(messages)
+    if (latestQuestion) {
+      await logQuestion({ sessionId, question: latestQuestion })
+    }
+
     const result = streamText({
       model: anthropic('claude-haiku-4-5'),
       system: SYSTEM_PROMPT,
