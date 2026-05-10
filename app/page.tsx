@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid'
 import Terminal from '@/components/Terminal'
 import MessageList from '@/components/MessageList'
 import InputBar from '@/components/InputBar'
+import { BootAnimation } from '@/components/BootAnimation'
+import { StatusBar } from '@/components/StatusBar'
 import { Message } from '@/types/chat'
 import { getContextualChips } from '@/lib/suggestions'
 import { pickAccent } from '@/lib/accent'
@@ -14,12 +16,18 @@ export default function Home() {
   const [isStreaming, setIsStreaming] = useState(false)
   const [isDisabled, setIsDisabled] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [booted, setBooted] = useState(false)
+  const [checked, setChecked] = useState(false)
 
   const sessionIdRef = useRef<string>(uuidv4())
 
   useEffect(() => {
     const accent = pickAccent()
     document.documentElement.style.setProperty('--accent', accent.hex)
+    if (sessionStorage.getItem('booted') === 'true') {
+      setBooted(true)
+    }
+    setChecked(true)
   }, [])
 
   const sendMessage = useCallback(
@@ -107,26 +115,41 @@ export default function Home() {
     [messages, isStreaming, isDisabled]
   )
 
+  const userMessageCount = messages.filter(m => m.role === 'user').length
+
+  if (!checked) return null
+
   return (
     <Terminal>
-      <MessageList
-        messages={messages}
-        isStreaming={isStreaming}
-        onChipSelect={sendMessage}
-      />
-      {errorMsg && (
-        <div
-          className="px-6 py-2 font-mono text-[12px] shrink-0"
-          style={{ color: '#E24B4A', borderTop: '0.5px solid var(--border-subtle)' }}
-        >
-          {errorMsg}
-        </div>
+      {!booted ? (
+        <BootAnimation onComplete={() => setBooted(true)} />
+      ) : (
+        <>
+          <MessageList
+            messages={messages}
+            isStreaming={isStreaming}
+            onChipSelect={sendMessage}
+          />
+          {errorMsg && (
+            <div
+              className="px-6 py-2 font-mono text-[12px] shrink-0"
+              style={{ color: '#E24B4A', borderTop: '0.5px solid var(--border-subtle)' }}
+            >
+              {errorMsg}
+            </div>
+          )}
+          <InputBar
+            onSubmit={sendMessage}
+            disabled={isDisabled || isStreaming}
+            shouldFocus={!isStreaming}
+          />
+          <StatusBar
+            isThinking={isStreaming}
+            messageCount={userMessageCount}
+            isLimitReached={isDisabled}
+          />
+        </>
       )}
-      <InputBar
-        onSubmit={sendMessage}
-        disabled={isDisabled || isStreaming}
-        shouldFocus={!isStreaming}
-      />
     </Terminal>
   )
 }

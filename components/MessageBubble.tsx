@@ -1,18 +1,17 @@
 'use client'
 
-import { Message } from '@/types/chat'
-import ChipRow from './ChipRow'
-import TypingIndicator from './TypingIndicator'
+import React from 'react'
 
 interface MessageBubbleProps {
-  message: Message
-  isStreaming?: boolean
+  role: 'user' | 'assistant'
+  content: string
+  chips?: string[]
   globalStreaming?: boolean
   onChipSelect: (chip: string) => void
 }
 
-function renderContent(content: string): React.ReactNode {
-  const parts = content.split(/(\*\*[^*]+\*\*|\*→[^*]+\*)/g)
+function renderWithBold(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g)
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
@@ -21,47 +20,78 @@ function renderContent(content: string): React.ReactNode {
         </strong>
       )
     }
-    if (part.startsWith('*→') && part.endsWith('*')) {
-      return (
-        <em key={i} style={{ color: 'var(--accent)', fontStyle: 'italic', display: 'block', marginTop: '0.75rem' }}>
-          {part.slice(1, -1)}
-        </em>
-      )
-    }
     return <span key={i}>{part}</span>
   })
 }
 
-export default function MessageBubble({ message, isStreaming, globalStreaming, onChipSelect }: MessageBubbleProps) {
-  if (message.role === 'user') {
+export default function MessageBubble({ role, content, chips, globalStreaming, onChipSelect }: MessageBubbleProps) {
+  if (role === 'user') {
     return (
-      <div className="flex gap-2 mb-5">
-        <span className="mt-0.5 shrink-0 font-mono text-[13px]" style={{ color: 'var(--accent)' }}>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+        <span style={{ color: 'var(--accent)', fontFamily: 'monospace', fontSize: 13, flexShrink: 0 }}>
           ❯
         </span>
-        <p className="font-mono text-[13px] leading-relaxed" style={{ color: 'var(--text-primary)' }}>
-          {message.content}
-        </p>
+        <span style={{ fontFamily: 'monospace', fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.7 }}>
+          {content}
+        </span>
       </div>
     )
   }
 
+  // Parse follow-up line (last line starting with → or *→)
+  const lines = content.split('\n')
+  let followUpIndex = -1
+  for (let i = lines.length - 1; i >= 0; i--) {
+    const trimmed = lines[i].trim()
+    if (trimmed.startsWith('→') || trimmed.startsWith('*→')) {
+      followUpIndex = i
+      break
+    }
+  }
+  const bodyLines = followUpIndex > -1 ? lines.slice(0, followUpIndex) : lines
+  const followUp = followUpIndex > -1
+    ? lines[followUpIndex].replace(/^\*?→\s*/, '').replace(/\*$/, '').trim()
+    : null
+  const bodyText = bodyLines.join('\n').trim()
+
   return (
-    <div className="mb-5">
-      <div
-        className="font-mono text-[13px] leading-[1.7]"
-        style={{ color: 'var(--text-secondary)' }}
-      >
-        {renderContent(message.content)}
-        {isStreaming && <TypingIndicator />}
-      </div>
-      {!isStreaming && message.chips && message.chips.length > 0 && (
-        <ChipRow
-          chips={message.chips}
-          variant="contextual"
-          onSelect={onChipSelect}
-          disabled={globalStreaming}
-        />
+    <div style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {bodyText && (
+        <div style={{ fontFamily: 'monospace', fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.75 }}>
+          {renderWithBold(bodyText)}
+        </div>
+      )}
+      {followUp && (
+        <div style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--accent)', fontStyle: 'italic' }}>
+          → {followUp}
+        </div>
+      )}
+      {chips && chips.length > 0 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 4 }}>
+          {chips.map(chip => (
+            <button
+              key={chip}
+              onClick={() => !globalStreaming && onChipSelect(chip)}
+              disabled={globalStreaming}
+              style={{
+                border: '0.5px solid var(--border)',
+                color: 'var(--text-muted)',
+                fontSize: 11,
+                padding: '4px 10px',
+                borderRadius: 3,
+                fontFamily: 'monospace',
+                background: 'transparent',
+                cursor: globalStreaming ? 'not-allowed' : 'pointer',
+                minHeight: 44,
+                display: 'flex',
+                alignItems: 'center',
+                opacity: globalStreaming ? 0.4 : 1,
+              }}
+            >
+              {chip}
+            </button>
+          ))}
+        </div>
       )}
     </div>
   )

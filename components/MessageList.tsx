@@ -5,6 +5,7 @@ import { Message } from '@/types/chat'
 import MessageBubble from './MessageBubble'
 import ChipRow from './ChipRow'
 import { INITIAL_CHIPS } from '@/lib/suggestions'
+import { groupIntoPairs } from '@/utils/groupMessages'
 
 interface MessageListProps {
   messages: Message[]
@@ -20,22 +21,12 @@ export default function MessageList({ messages, isStreaming, onChipSelect }: Mes
   }, [messages, isStreaming])
 
   const isEmpty = messages.length === 0
+  const pairs = groupIntoPairs(messages)
 
   return (
-    <div className="flex-1 overflow-y-auto px-3 sm:px-6 py-4 sm:py-6 min-h-0">
+    <div className="flex-1 overflow-y-auto min-h-0">
       {isEmpty ? (
-        <div className="flex flex-col items-start justify-center h-full">
-          <div className="font-mono text-[13px] leading-[1.9]" style={{ color: 'var(--text-muted)' }}>
-            <p>adhi@portfolio ~ % ./ask-adhi --interactive</p>
-            <p>Initialising... done.</p>
-            <p style={{ color: 'var(--text-secondary)' }}>
-              Software developer based in Singapore. Ask me anything.
-            </p>
-          </div>
-          <div
-            className="w-full my-4"
-            style={{ borderTop: '0.5px solid var(--border)' }}
-          />
+        <div className="flex flex-col h-full justify-end px-3 sm:px-6 py-4">
           <ChipRow
             chips={INITIAL_CHIPS}
             variant="initial"
@@ -44,20 +35,28 @@ export default function MessageList({ messages, isStreaming, onChipSelect }: Mes
           />
         </div>
       ) : (
-        <div>
-          {messages.map((msg, idx) => {
-            const isLast = idx === messages.length - 1
-            const streaming = isLast && isStreaming && msg.role === 'assistant'
-            return (
+        <div
+          className="px-3 sm:px-6 py-4"
+          style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
+        >
+          {pairs.map((pair, i) => (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <MessageBubble
-                key={msg.id}
-                message={msg}
-                isStreaming={streaming}
-                globalStreaming={isStreaming}
+                role="user"
+                content={pair.user.content}
                 onChipSelect={onChipSelect}
               />
-            )
-          })}
+              {pair.assistant && (
+                <MessageBubble
+                  role="assistant"
+                  content={pair.assistant.content}
+                  chips={pair.assistant.chips}
+                  globalStreaming={isStreaming}
+                  onChipSelect={onChipSelect}
+                />
+              )}
+            </div>
+          ))}
         </div>
       )}
       <div ref={bottomRef} />

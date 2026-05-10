@@ -5,9 +5,13 @@
   /* Dark theme — default */
   --bg-primary:    #111110;
   --bg-secondary:  #1c1c1a;
+  --header-bg:     #181816;
+  --statusbar-bg:  #0d0d0c;
   --text-primary:  #d4d0c8;
   --text-secondary:#9a9890;
   --text-muted:    #484846;
+  --text-dim:      #3a3a38;
+  --text-subtle:   #555555;
   --border:        #252523;
   --border-subtle: #1c1c1a;
 }
@@ -15,9 +19,13 @@
 [data-theme="light"] {
   --bg-primary:    #f5f5f0;
   --bg-secondary:  #ebebe6;
+  --header-bg:     #ebebe6;
+  --statusbar-bg:  #e5e5e0;
   --text-primary:  #1a1a18;
   --text-secondary:#4a4a48;
-  --text-muted:    #999;
+  --text-muted:    #666666;
+  --text-dim:      #999999;
+  --text-subtle:   #777777;
   --border:        #d8d8d3;
   --border-subtle: #e5e5e0;
 }
