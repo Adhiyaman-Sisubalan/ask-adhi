@@ -53,17 +53,17 @@
   },
   "experience": [
     {
-      "company": "Crédit Agricole CIB",
+      "company": "Investment Bank",
       "role": "Software Developer",
       "location": "Singapore",
-      "period": "2019 – Present",
+      "period": "2020 – Present",
       "focus": "Agentic AI engineering — building MCP servers for Jira, GitLab, and Control-M; architecting a multi-agent WPF-to-React migration pipeline using GitHub Copilot; Kafka SASL_SSL/SCRAM-SHA-512 integration in Spring Framework; Checkmarx security vulnerability remediation in Java."
     }
   ],
   "contact": {
-    "linkedin": "https://linkedin.com/in/YOUR_HANDLE",
-    "email": "YOUR_EMAIL",
-    "github": "https://github.com/YOUR_HANDLE",
+    "linkedin": "https://www.linkedin.com/in/adhiyaman-sisubalan/",
+    "email": "adhiyamansisubalan@gmail.com",
+    "github": "https://github.com/Adhiyaman-Sisubalan",
     "location": "Singapore"
   }
 }

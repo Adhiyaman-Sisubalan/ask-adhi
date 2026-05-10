@@ -7,6 +7,7 @@ import TypingIndicator from './TypingIndicator'
 interface MessageBubbleProps {
   message: Message
   isStreaming?: boolean
+  globalStreaming?: boolean
   onChipSelect: (chip: string) => void
 }
 
@@ -31,7 +32,7 @@ function renderContent(content: string): React.ReactNode {
   })
 }
 
-export default function MessageBubble({ message, isStreaming, onChipSelect }: MessageBubbleProps) {
+export default function MessageBubble({ message, isStreaming, globalStreaming, onChipSelect }: MessageBubbleProps) {
   if (message.role === 'user') {
     return (
       <div className="flex gap-2 mb-5">
@@ -55,7 +56,12 @@ export default function MessageBubble({ message, isStreaming, onChipSelect }: Me
         {isStreaming && <TypingIndicator />}
       </div>
       {!isStreaming && message.chips && message.chips.length > 0 && (
-        <ChipRow chips={message.chips} variant="contextual" onSelect={onChipSelect} />
+        <ChipRow
+          chips={message.chips}
+          variant="contextual"
+          onSelect={onChipSelect}
+          disabled={globalStreaming}
+        />
       )}
     </div>
   )

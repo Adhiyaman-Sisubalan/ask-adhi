@@ -13,7 +13,7 @@
 }
 
 html, body {
-  height: 100%;
+  height: 100dvh;
   overflow: hidden;
   background: #111110;
   font-family: var(--font-geist-mono), ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Monaco, Consolas, monospace;

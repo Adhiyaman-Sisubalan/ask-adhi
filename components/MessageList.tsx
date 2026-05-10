@@ -22,7 +22,7 @@ export default function MessageList({ messages, isStreaming, onChipSelect }: Mes
   const isEmpty = messages.length === 0
 
   return (
-    <div className="flex-1 overflow-y-auto px-6 py-6 min-h-0">
+    <div className="flex-1 overflow-y-auto px-3 sm:px-6 py-4 sm:py-6 min-h-0">
       {isEmpty ? (
         <div className="flex flex-col items-start justify-center h-full">
           <div className="font-mono text-[13px] leading-[1.9]" style={{ color: '#484846' }}>
@@ -36,7 +36,12 @@ export default function MessageList({ messages, isStreaming, onChipSelect }: Mes
             className="w-full my-4"
             style={{ borderTop: '0.5px solid #252523' }}
           />
-          <ChipRow chips={INITIAL_CHIPS} variant="initial" onSelect={onChipSelect} />
+          <ChipRow
+            chips={INITIAL_CHIPS}
+            variant="initial"
+            onSelect={onChipSelect}
+            disabled={isStreaming}
+          />
         </div>
       ) : (
         <div>
@@ -48,6 +53,7 @@ export default function MessageList({ messages, isStreaming, onChipSelect }: Mes
                 key={msg.id}
                 message={msg}
                 isStreaming={streaming}
+                globalStreaming={isStreaming}
                 onChipSelect={onChipSelect}
               />
             )

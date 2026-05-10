@@ -14,7 +14,6 @@ export default function Home() {
   const [isStreaming, setIsStreaming] = useState(false)
   const [isDisabled, setIsDisabled] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
-  const [pendingChip, setPendingChip] = useState<string | undefined>(undefined)
 
   const sessionIdRef = useRef<string>(uuidv4())
 
@@ -108,23 +107,12 @@ export default function Home() {
     [messages, isStreaming, isDisabled]
   )
 
-  const handleChipSelect = useCallback(
-    (chip: string) => {
-      setPendingChip(chip)
-      setTimeout(() => {
-        sendMessage(chip)
-        setPendingChip(undefined)
-      }, 50)
-    },
-    [sendMessage]
-  )
-
   return (
     <Terminal>
       <MessageList
         messages={messages}
         isStreaming={isStreaming}
-        onChipSelect={handleChipSelect}
+        onChipSelect={sendMessage}
       />
       {errorMsg && (
         <div
@@ -137,7 +125,6 @@ export default function Home() {
       <InputBar
         onSubmit={sendMessage}
         disabled={isDisabled || isStreaming}
-        pendingValue={pendingChip}
       />
     </Terminal>
   )

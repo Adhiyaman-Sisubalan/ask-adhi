@@ -9,8 +9,8 @@ interface TerminalProps {
 export default function Terminal({ children }: TerminalProps) {
   return (
     <div
-      className="flex flex-col w-full max-w-[760px] mx-auto h-screen overflow-hidden"
-      style={{ background: '#111110' }}
+      className="flex flex-col w-full sm:max-w-[760px] sm:mx-auto sm:rounded-xl overflow-hidden"
+      style={{ height: '100dvh', background: '#111110' }}
     >
       {/* Title bar */}
       <div
@@ -21,7 +21,7 @@ export default function Terminal({ children }: TerminalProps) {
         <span className="w-3 h-3 rounded-full inline-block" style={{ background: '#EF9F27' }} />
         <span className="w-3 h-3 rounded-full inline-block" style={{ background: '#639922' }} />
         <span
-          className="font-mono text-[12px] ml-3"
+          className="hidden sm:block font-mono text-[12px] ml-3"
           style={{ color: '#3a3a38' }}
         >
           adhi@portfolio — ask-adhi
