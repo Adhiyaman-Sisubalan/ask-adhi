@@ -18,6 +18,7 @@ export default function Home() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const [booted, setBooted] = useState(false)
   const [checked, setChecked] = useState(false)
+  const [skipAnimation, setSkipAnimation] = useState(false)
 
   const sessionIdRef = useRef<string>(uuidv4())
 
@@ -25,6 +26,7 @@ export default function Home() {
     const accent = pickAccent()
     document.documentElement.style.setProperty('--accent', accent.hex)
     if (sessionStorage.getItem('booted') === 'true') {
+      setSkipAnimation(true)
       setBooted(true)
     }
     setChecked(true)
@@ -121,10 +123,27 @@ export default function Home() {
 
   return (
     <Terminal>
-      {!booted ? (
-        <BootAnimation onComplete={() => setBooted(true)} />
-      ) : (
-        <>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+        {/* Boot lines — always mounted once checked, never removed */}
+        <div style={{ flexShrink: 0, padding: '22px 24px 8px' }}>
+          <BootAnimation
+            onComplete={() => setBooted(true)}
+            skipAnimation={skipAnimation}
+          />
+        </div>
+
+        {/* Chat — fades in below boot lines, scrollable */}
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: 0,
+            opacity: booted ? 1 : 0,
+            transition: 'opacity 0.4s ease',
+            pointerEvents: booted ? 'auto' : 'none',
+          }}
+        >
           <MessageList
             messages={messages}
             isStreaming={isStreaming}
@@ -140,16 +159,16 @@ export default function Home() {
           )}
           <InputBar
             onSubmit={sendMessage}
-            disabled={isDisabled || isStreaming}
-            shouldFocus={!isStreaming}
+            disabled={!booted || isDisabled || isStreaming}
+            shouldFocus={booted && !isStreaming}
           />
           <StatusBar
             isThinking={isStreaming}
             messageCount={userMessageCount}
             isLimitReached={isDisabled}
           />
-        </>
-      )}
+        </div>
+      </div>
     </Terminal>
   )
 }

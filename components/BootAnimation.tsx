@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react'
 
 interface BootAnimationProps {
   onComplete: () => void
+  skipAnimation?: boolean
 }
 
-export function BootAnimation({ onComplete }: BootAnimationProps) {
+export function BootAnimation({ onComplete, skipAnimation = false }: BootAnimationProps) {
   const [visibleLines, setVisibleLines] = useState<number[]>([])
   const [bar1Width, setBar1Width] = useState(0)
   const [bar1Pct, setBar1Pct] = useState(0)
@@ -13,6 +14,16 @@ export function BootAnimation({ onComplete }: BootAnimationProps) {
   const [bar2Pct, setBar2Pct] = useState(0)
 
   useEffect(() => {
+    if (skipAnimation) {
+      setVisibleLines([0, 1, 2, 3, 4, 5, 6, 7, 8])
+      setBar1Width(100)
+      setBar1Pct(100)
+      setBar2Width(100)
+      setBar2Pct(100)
+      onComplete()
+      return
+    }
+
     const sequence: Array<{ id: number | 'bar1' | 'bar2'; ms: number; dur?: number }> = [
       { id: 0,      ms: 0    },
       { id: 1,      ms: 200  },
@@ -60,7 +71,7 @@ export function BootAnimation({ onComplete }: BootAnimationProps) {
     timers.push(done)
 
     return () => timers.forEach(clearTimeout)
-  }, [onComplete])
+  }, [skipAnimation, onComplete])
 
   const lines = [
     <>
@@ -104,7 +115,7 @@ export function BootAnimation({ onComplete }: BootAnimationProps) {
   ]
 
   return (
-    <div style={{ padding: '22px 24px', display: 'flex', flexDirection: 'column', gap: 4, flex: 1 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
       {lines.map((line, i) => (
         <div key={i}>
           <div

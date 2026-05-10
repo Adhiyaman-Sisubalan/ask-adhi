@@ -49,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${geistMono.variable} h-full`}>
+    <html lang="en" className={`${geistMono.variable} h-full`} suppressHydrationWarning>
       <head>
         {/* Prevent flash of wrong theme before React hydrates */}
         <script
