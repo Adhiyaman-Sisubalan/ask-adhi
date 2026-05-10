@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# Personal documents — embedded into Supabase, not committed
+data/resume.txt
+
 # vercel
 .vercel
 

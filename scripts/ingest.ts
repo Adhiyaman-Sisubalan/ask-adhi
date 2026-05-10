@@ -60,9 +60,15 @@ async function ingest() {
   console.log('Cleared existing documents. Embedding...')
 
   const BATCH_SIZE = 10
+  const BATCH_DELAY_MS = 22000 // 3 RPM free-tier limit: ≥20s between requests
   let inserted = 0
 
   for (let i = 0; i < chunks.length; i += BATCH_SIZE) {
+    if (i > 0) {
+      process.stdout.write(`Rate-limit pause (${BATCH_DELAY_MS / 1000}s)...`)
+      await new Promise((r) => setTimeout(r, BATCH_DELAY_MS))
+      process.stdout.write(' done\n')
+    }
     const batch = chunks.slice(i, i + BATCH_SIZE)
     const embeddings = await embedBatch(batch)
 

@@ -1,30 +1,31 @@
 {
   "projects": [
     {
-      "name": "HawkerAI",
-      "description": "Singapore hawker dish calorie analyzer using Claude Vision API and HPB nutrition database. Upload a photo of your hawker meal and get an estimated calorie count with nutritional breakdown.",
-      "tech": ["Next.js", "Claude Vision API", "TypeScript", "Vercel"],
+      "name": "ask-adhi",
+      "description": "Terminal-style portfolio chatbot powered by Claude API with RAG over a personal knowledge base and structured tool calling. Built in three agile phases using spec-driven development with Claude Code.",
+      "tech": ["Next.js", "TypeScript", "Claude API", "Supabase pgvector", "Voyage AI", "Vercel"],
       "url": null,
       "highlights": [
-        "Production Claude API integration using vision capabilities",
+        "RAG over resume using Supabase pgvector and Voyage AI embeddings",
+        "Claude tool-calling orchestration with structured tools",
+        "Terminal aesthetic with randomised accent color per session",
+        "Spec-driven development with Claude Code across three phases"
+      ]
+    },
+    {
+      "name": "HawkerAI",
+      "description": "Singapore hawker dish calorie analyser using Claude Vision API and the HPB nutrition database. Upload a photo of a hawker meal and get an estimated calorie count.",
+      "tech": ["Next.js", "TypeScript", "Claude Vision API", "Vercel"],
+      "url": null,
+      "highlights": [
+        "Production Claude Vision API integration",
         "Deployed on Vercel",
         "Portfolio project demonstrating applied AI engineering"
       ]
     },
     {
-      "name": "ask-adhi",
-      "description": "This portfolio chatbot — a terminal-style chat interface powered by Claude API with RAG over a personal knowledge base and structured tool calling.",
-      "tech": ["Next.js", "TypeScript", "Claude API", "Supabase pgvector", "Voyage AI", "Vercel AI SDK"],
-      "url": null,
-      "highlights": [
-        "RAG over resume using Supabase pgvector and Voyage AI embeddings",
-        "Claude tool-calling orchestration with 5 structured tools",
-        "Terminal aesthetic with randomised accent color per session"
-      ]
-    },
-    {
       "name": "LinkedIn Post Pipeline",
-      "description": "Multi-agent pipeline for generating LinkedIn posts using CrewAI and the Anthropic Claude API.",
+      "description": "Multi-agent pipeline for generating LinkedIn posts using CrewAI and the Anthropic Claude API. Demonstrates multi-agent orchestration beyond single-model calls.",
       "tech": ["Python", "CrewAI", "Claude API"],
       "url": null,
       "highlights": [
@@ -34,30 +35,48 @@
     },
     {
       "name": "Tiny Tamagotchi",
-      "description": "Virtual pet app built for the DeepLearning.AI 7-Day Learner Challenge (submitted April 2025). Built using spec-driven development via Claude Code.",
+      "description": "Virtual pet app built for the DeepLearning.AI 7-Day Learner Challenge, submitted April 2025. Built using spec-driven development via Claude Code.",
       "tech": ["React", "TypeScript", "Vite", "Tailwind CSS", "Zustand"],
       "url": null,
       "highlights": [
         "Spec-driven development workflow with Claude Code",
         "Completed within a 7-day challenge deadline"
       ]
+    },
+    {
+      "name": "MCP Servers (Internal, CA-CIB Singapore)",
+      "description": "Engineered MCP servers for Jira and GitLab, enabling AI-assisted developer workflows across multiple teams at Crédit Agricole CIB Singapore. One of the first agentic AI tooling initiatives at the bank.",
+      "tech": ["MCP (Model Context Protocol)", "Claude API", "Jira API", "GitLab API"],
+      "url": null,
+      "highlights": [
+        "Company-wide adoption across multiple teams",
+        "One of the first agentic AI tooling initiatives at CA-CIB Singapore"
+      ]
     }
   ],
   "skills": {
-    "languages": ["Java", "Python", "TypeScript", "JavaScript"],
-    "frameworks": ["Spring Boot", "Spring Framework", "React", "Next.js", "LangGraph", "CrewAI"],
-    "ai_and_agents": ["Claude API", "MCP (Model Context Protocol)", "LangGraph", "CrewAI", "RAG", "pgvector", "Voyage AI"],
-    "databases": ["PostgreSQL", "Supabase", "SQLite"],
-    "devops": ["GitLab CI", "Jenkins", "Vercel", "Docker"],
-    "tools": ["Claude Code", "Kafka", "Git", "GitHub Copilot"]
+    "languages": ["Java 8/17", "Python", "TypeScript", "JavaScript", "C#"],
+    "frameworks": ["Spring Boot", "Apache Spark", "Apache Kafka", "React", "Next.js", "Hibernate", ".NET", "WPF", "LangGraph", "CrewAI"],
+    "ai_and_agents": ["Claude API", "OpenAI API", "MCP (Model Context Protocol)", "LangGraph", "CrewAI", "LangChain", "RAG", "pgvector", "Voyage AI"],
+    "cloud_and_devops": ["AWS", "Docker", "Kubernetes", "Jenkins", "Ansible", "GitLab CI"],
+    "databases": ["MS SQL Server", "MySQL", "PostgreSQL", "Supabase"],
+    "tools": ["IntelliJ", "VS Code", "Git", "SonarQube", "Checkmarx", "Jira", "Control-M", "Claude Code"],
+    "domain": ["Market Risk", "SIMM/ISDA", "Initial Margin", "PnL", "Derivatives", "OTC instruments"]
   },
   "experience": [
     {
-      "company": "Investment Bank",
-      "role": "Software Developer",
+      "company": "Crédit Agricole CIB",
+      "role": "Software Developer and Operations Lead",
       "location": "Singapore",
-      "period": "2020 – Present",
-      "focus": "Agentic AI engineering — building MCP servers for Jira, GitLab, and Control-M; architecting a multi-agent WPF-to-React migration pipeline using GitHub Copilot; Kafka SASL_SSL/SCRAM-SHA-512 integration in Spring Framework; Checkmarx security vulnerability remediation in Java."
+      "period": "December 2020 – Present",
+      "focus": "Initial Margin calculation engine (SIMM/OTC derivatives), MCP server engineering (Jira and GitLab), Apache Spark pipeline optimisation, Spring Boot microservices, Kafka event-driven architecture, WPF-to-React migration using strangler fig pattern."
+    },
+    {
+      "company": "National University Health Systems",
+      "role": "Systems Developer Intern",
+      "location": "Singapore",
+      "period": "March 2020 – July 2020",
+      "focus": "Built a patient data ingestion pipeline transforming high-volume records into OMOP Common Data Model format in SQL Server. Batch scheduling via Crontab, modular ETL architecture."
     }
   ],
   "contact": {
