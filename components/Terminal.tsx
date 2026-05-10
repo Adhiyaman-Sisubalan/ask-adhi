@@ -2,12 +2,14 @@
 
 import { ReactNode } from 'react'
 import { useTheme } from './ThemeProvider'
+import { HeaderCompanion } from './HeaderCompanion'
 
 interface TerminalProps {
   children: ReactNode
+  isThinking?: boolean
 }
 
-export default function Terminal({ children }: TerminalProps) {
+export default function Terminal({ children, isThinking = false }: TerminalProps) {
   const { theme, toggleTheme } = useTheme()
 
   return (
@@ -25,15 +27,18 @@ export default function Terminal({ children }: TerminalProps) {
           alignItems: 'center',
           justifyContent: 'space-between',
           flexShrink: 0,
+          gap: 12,
         }}
       >
         {/* Left — brand */}
-        <span style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--text-secondary)' }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--text-secondary)', flexShrink: 0 }}>
           adhi<span style={{ color: 'var(--accent)' }}>@</span>portfolio
         </span>
 
+        <HeaderCompanion isThinking={isThinking} />
+
         {/* Right — links + toggle */}
-        <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexShrink: 0 }}>
           <a
             href="https://linkedin.com/in/adhiyaman-sisubalan"
             target="_blank"

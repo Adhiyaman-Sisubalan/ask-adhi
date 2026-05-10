@@ -139,7 +139,7 @@ export default function Home() {
   if (!checked) return null
 
   return (
-    <Terminal>
+    <Terminal isThinking={isStreaming}>
       {/* Single unified scroll body — boot lines + chat in one continuous flow */}
       <div
         ref={scrollRef}
