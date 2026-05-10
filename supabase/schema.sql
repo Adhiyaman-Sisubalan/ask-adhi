@@ -16,10 +16,16 @@ create index if not exists documents_embedding_idx
   using ivfflat (embedding vector_cosine_ops)
   with (lists = 100);
 
+-- RLS: documents is a public knowledge base — disable RLS so the anon key
+-- can read it, or alternatively add a policy: FOR SELECT USING (true).
+-- The runtime uses the service role key (server-side only) so this is
+-- belt-and-suspenders, but correct to document.
+alter table documents disable row level security;
+
 -- Match function used by vectorStore.ts
 create or replace function match_documents(
   query_embedding vector(512),
-  match_threshold float default 0.70,
+  match_threshold float default 0.45,
   match_count     int   default 4
 )
 returns table (

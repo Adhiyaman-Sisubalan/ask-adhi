@@ -4,7 +4,10 @@ interface VoyageEmbedResponse {
   usage: { total_tokens: number }
 }
 
-async function voyageEmbed(input: string | string[]): Promise<number[][]> {
+async function voyageEmbed(
+  input: string | string[],
+  inputType: 'query' | 'document'
+): Promise<number[][]> {
   const texts = Array.isArray(input) ? input : [input]
 
   const res = await fetch('https://api.voyageai.com/v1/embeddings', {
@@ -13,7 +16,7 @@ async function voyageEmbed(input: string | string[]): Promise<number[][]> {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.VOYAGE_API_KEY}`,
     },
-    body: JSON.stringify({ input: texts, model: 'voyage-3-lite' }),
+    body: JSON.stringify({ input: texts, model: 'voyage-3-lite', input_type: inputType }),
   })
 
   if (!res.ok) {
@@ -26,10 +29,10 @@ async function voyageEmbed(input: string | string[]): Promise<number[][]> {
 }
 
 export async function embedText(text: string): Promise<number[]> {
-  const embeddings = await voyageEmbed(text)
+  const embeddings = await voyageEmbed(text, 'query')
   return embeddings[0]
 }
 
 export async function embedBatch(texts: string[]): Promise<number[][]> {
-  return voyageEmbed(texts)
+  return voyageEmbed(texts, 'document')
 }

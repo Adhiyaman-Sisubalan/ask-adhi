@@ -14,18 +14,33 @@ const supabase = createClient(
 const CHUNK_SIZE = 400
 const CHUNK_OVERLAP = 80
 
-function chunkText(text: string): string[] {
-  const sections = text.split(/\n{2,}/).filter((s) => s.trim().length > 20)
-  const chunks: string[] = []
+// ALL-CAPS lines ≤50 chars are section headers (e.g. "CERTIFICATIONS").
+// We prepend the current header to each following chunk so the header word
+// is searchable even though the header paragraph alone is too short to keep.
+const HEADER_RE = /^[A-Z][A-Z\s/()]+$/
 
-  for (const section of sections) {
-    if (section.length <= CHUNK_SIZE) {
-      chunks.push(section.trim())
+function chunkText(text: string): string[] {
+  const paragraphs = text.split(/\n{2,}/)
+  const chunks: string[] = []
+  let currentHeader = ''
+
+  for (const para of paragraphs) {
+    const trimmed = para.trim()
+    if (!trimmed) continue
+
+    if (HEADER_RE.test(trimmed) && trimmed.length <= 50) {
+      currentHeader = trimmed
+      continue
+    }
+
+    const content = currentHeader ? `${currentHeader}\n${trimmed}` : trimmed
+    if (content.length <= CHUNK_SIZE) {
+      if (content.length > 10) chunks.push(content)
     } else {
       let start = 0
-      while (start < section.length) {
-        const end = Math.min(start + CHUNK_SIZE, section.length)
-        chunks.push(section.slice(start, end).trim())
+      while (start < content.length) {
+        const end = Math.min(start + CHUNK_SIZE, content.length)
+        chunks.push(content.slice(start, end).trim())
         start += CHUNK_SIZE - CHUNK_OVERLAP
       }
     }

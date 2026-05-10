@@ -12,9 +12,10 @@ export interface Skills {
   languages: string[]
   frameworks: string[]
   ai_and_agents: string[]
+  cloud_and_devops: string[]
   databases: string[]
-  devops: string[]
   tools: string[]
+  domain: string[]
 }
 
 export interface Experience {
