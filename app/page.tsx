@@ -8,7 +8,7 @@ import InputBar from '@/components/InputBar'
 import { BootAnimation } from '@/components/BootAnimation'
 import { StatusBar } from '@/components/StatusBar'
 import { Message } from '@/types/chat'
-import { excludeAnsweredQuestion, getContextualChips, pickChips } from '@/lib/suggestions'
+import { getContextualChips, pickChips } from '@/lib/suggestions'
 import { pickAccent } from '@/lib/accent'
 import { pickThinkingPhrase } from '@/lib/thinkingPhrases'
 
@@ -25,6 +25,7 @@ export default function Home() {
 
   const sessionIdRef = useRef<string>(uuidv4())
   const scrollRef = useRef<HTMLDivElement>(null)
+  const seenChipQuestionsRef = useRef<Set<string>>(new Set(initialChips))
 
   useEffect(() => {
     const accent = pickAccent()
@@ -112,10 +113,11 @@ export default function Home() {
           )
         }
 
-        const chips = excludeAnsweredQuestion(
-          getContextualChips(accumulated),
-          content.trim()
-        )
+        const chips = getContextualChips(accumulated, {
+          answeredQuestion: content.trim(),
+          seenQuestions: seenChipQuestionsRef.current,
+        })
+        chips.forEach((chip) => seenChipQuestionsRef.current.add(chip))
         setMessages((prev) =>
           prev.map((m) =>
             m.id === assistantId ? { ...m, content: accumulated, chips } : m
