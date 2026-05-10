@@ -13,14 +13,21 @@ interface MessageBubbleProps {
   onChipSelect: (chip: string) => void
 }
 
-function renderWithBold(text: string): React.ReactNode {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g)
+function renderFormattedText(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*\n]+\*)/g)
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
         <strong key={i} style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
           {part.slice(2, -2)}
         </strong>
+      )
+    }
+    if (part.startsWith('*') && part.endsWith('*')) {
+      return (
+        <em key={i} style={{ color: 'var(--text-secondary)', fontStyle: 'italic' }}>
+          {part.slice(1, -1)}
+        </em>
       )
     }
     return <span key={i}>{part}</span>
@@ -71,7 +78,7 @@ export default function MessageBubble({
       )}
       {bodyText && (
         <div style={{ fontFamily: 'monospace', fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.75 }}>
-          {renderWithBold(bodyText)}
+          {renderFormattedText(bodyText)}
         </div>
       )}
       {followUp && (
