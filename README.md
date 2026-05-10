@@ -23,7 +23,7 @@ bit of personality without complexity.
 
 ## How it works
 
-The bot is powered by **Claude claude-sonnet-4-6** (Anthropic) and uses two complementary
+The bot is powered by **Claude claude-haiku-4-5** (Anthropic) and uses two complementary
 approaches to answer questions:
 
 **RAG (Retrieval-Augmented Generation)**
@@ -51,7 +51,7 @@ feel like a real conversation rather than a fancy FAQ.
 | Framework       | Next.js 15 (App Router)                        |
 | Language        | TypeScript (strict)                            |
 | Styling         | Tailwind CSS v4                                |
-| AI model        | Claude claude-sonnet-4-6 (Anthropic)                |
+| AI model        | Claude claude-haiku-4-5 (Anthropic)                 |
 | AI SDK          | Vercel AI SDK — streaming + tool calling       |
 | Embeddings      | Voyage AI `voyage-3-lite` (free tier)          |
 | Vector store    | Supabase pgvector                              |
@@ -65,7 +65,7 @@ feel like a real conversation rather than a fancy FAQ.
 ```
 Browser
   └── Next.js App Router (chat UI + API routes)
-        └── Claude claude-sonnet-4-6 (tool-calling orchestrator)
+        └── Claude claude-haiku-4-5 (tool-calling orchestrator)
               ├── searchKnowledge()   → Supabase pgvector (RAG)
               ├── getProjects()       → static JSON
               ├── getSkills()         → static JSON
