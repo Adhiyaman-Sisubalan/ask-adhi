@@ -2,7 +2,6 @@ export const INITIAL_CHIPS = [
   'What do you build?',
   "What's your tech stack?",
   'Tell me about a project',
-  'Are you open to work?',
 ]
 
 export const KEYWORD_CHIPS: Record<string, string[]> = {
@@ -10,7 +9,7 @@ export const KEYWORD_CHIPS: Record<string, string[]> = {
   java:      ['How long have you used Java?', 'Spring Boot or Spring Framework?'],
   react:     ['Any React projects I can see?', 'Frontend or full-stack?'],
   ai:        ['What AI tools do you use?', 'Tell me about the agentic work'],
-  singapore: ['How long have you been in Singapore?', 'Open to relocation?'],
+  singapore: ['How long have you been in Singapore?', "What's the fintech scene like there?"],
   project:   ['Tell me about HawkerAI', 'What was the Tamagotchi project?'],
   bank:      ['What does CA-CIB do?', 'What\'s your role there exactly?'],
   langgraph: ['How are you using LangGraph?', 'LangGraph vs CrewAI?'],
