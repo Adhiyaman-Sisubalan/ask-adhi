@@ -16,7 +16,7 @@ function renderContent(content: string): React.ReactNode {
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
-        <strong key={i} style={{ color: '#d4d0c8', fontWeight: 500 }}>
+        <strong key={i} style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
           {part.slice(2, -2)}
         </strong>
       )
@@ -39,7 +39,7 @@ export default function MessageBubble({ message, isStreaming, globalStreaming, o
         <span className="mt-0.5 shrink-0 font-mono text-[13px]" style={{ color: 'var(--accent)' }}>
           ❯
         </span>
-        <p className="font-mono text-[13px] leading-relaxed" style={{ color: '#d4d0c8' }}>
+        <p className="font-mono text-[13px] leading-relaxed" style={{ color: 'var(--text-primary)' }}>
           {message.content}
         </p>
       </div>
@@ -50,7 +50,7 @@ export default function MessageBubble({ message, isStreaming, globalStreaming, o
     <div className="mb-5">
       <div
         className="font-mono text-[13px] leading-[1.7]"
-        style={{ color: '#9a9890' }}
+        style={{ color: 'var(--text-secondary)' }}
       >
         {renderContent(message.content)}
         {isStreaming && <TypingIndicator />}

@@ -1,7 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --accent: #1D9E75;
+  --accent:        #1D9E75;
+  /* Dark theme — default */
+  --bg-primary:    #111110;
+  --bg-secondary:  #1c1c1a;
+  --text-primary:  #d4d0c8;
+  --text-secondary:#9a9890;
+  --text-muted:    #484846;
+  --border:        #252523;
+  --border-subtle: #1c1c1a;
+}
+
+[data-theme="light"] {
+  --bg-primary:    #f5f5f0;
+  --bg-secondary:  #ebebe6;
+  --text-primary:  #1a1a18;
+  --text-secondary:#4a4a48;
+  --text-muted:    #999;
+  --border:        #d8d8d3;
+  --border-subtle: #e5e5e0;
 }
 
 @theme inline {
@@ -15,7 +33,7 @@
 html, body {
   height: 100dvh;
   overflow: hidden;
-  background: #111110;
+  background: var(--bg-primary);
   font-family: var(--font-geist-mono), ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Monaco, Consolas, monospace;
 }
 
@@ -32,22 +50,22 @@ body::-webkit-scrollbar {
   background: transparent;
 }
 .overflow-y-auto::-webkit-scrollbar-thumb {
-  background: #252523;
+  background: var(--border);
   border-radius: 2px;
 }
 
 /* Input placeholder */
 input::placeholder {
-  color: #333333;
+  color: var(--border);
 }
 
 /* Chip button base */
 .chip-btn {
-  border-color: #252523;
-  color: #484846;
+  border-color: var(--border);
+  color: var(--text-muted);
   background: transparent;
 }
-.chip-btn:hover {
+.chip-btn:hover:not(:disabled) {
   border-color: var(--accent);
   color: var(--accent);
 }

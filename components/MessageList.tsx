@@ -25,16 +25,16 @@ export default function MessageList({ messages, isStreaming, onChipSelect }: Mes
     <div className="flex-1 overflow-y-auto px-3 sm:px-6 py-4 sm:py-6 min-h-0">
       {isEmpty ? (
         <div className="flex flex-col items-start justify-center h-full">
-          <div className="font-mono text-[13px] leading-[1.9]" style={{ color: '#484846' }}>
+          <div className="font-mono text-[13px] leading-[1.9]" style={{ color: 'var(--text-muted)' }}>
             <p>adhi@portfolio ~ % ./ask-adhi --interactive</p>
             <p>Initialising... done.</p>
-            <p style={{ color: '#9a9890' }}>
+            <p style={{ color: 'var(--text-secondary)' }}>
               Software developer based in Singapore. Ask me anything.
             </p>
           </div>
           <div
             className="w-full my-4"
-            style={{ borderTop: '0.5px solid #252523' }}
+            style={{ borderTop: '0.5px solid var(--border)' }}
           />
           <ChipRow
             chips={INITIAL_CHIPS}

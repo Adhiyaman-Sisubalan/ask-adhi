@@ -117,7 +117,7 @@ export default function Home() {
       {errorMsg && (
         <div
           className="px-6 py-2 font-mono text-[12px] shrink-0"
-          style={{ color: '#E24B4A', borderTop: '0.5px solid #1c1c1a' }}
+          style={{ color: '#E24B4A', borderTop: '0.5px solid var(--border-subtle)' }}
         >
           {errorMsg}
         </div>
@@ -125,6 +125,7 @@ export default function Home() {
       <InputBar
         onSubmit={sendMessage}
         disabled={isDisabled || isStreaming}
+        shouldFocus={!isStreaming}
       />
     </Terminal>
   )
