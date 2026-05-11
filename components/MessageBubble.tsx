@@ -45,10 +45,10 @@ export default function MessageBubble({
   if (role === 'user') {
     return (
       <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-        <span style={{ color: 'var(--accent)', fontFamily: 'monospace', fontSize: 13, flexShrink: 0 }}>
+        <span style={{ color: 'var(--accent)', fontFamily: 'monospace', fontSize: 14, flexShrink: 0 }}>
           ❯
         </span>
-        <span style={{ fontFamily: 'monospace', fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.7 }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 14, color: 'var(--text-primary)', lineHeight: 1.7 }}>
           {content}
         </span>
       </div>
@@ -77,12 +77,12 @@ export default function MessageBubble({
         <TypingIndicator phrase={thinkingPhrase} />
       )}
       {bodyText && (
-        <div style={{ fontFamily: 'monospace', fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.75 }}>
+        <div style={{ fontFamily: 'monospace', fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.75 }}>
           {renderFormattedText(bodyText)}
         </div>
       )}
       {followUp && (
-        <div style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--accent)', fontStyle: 'italic' }}>
+        <div style={{ fontFamily: 'monospace', fontSize: 13, color: 'var(--accent)', fontStyle: 'italic' }}>
           → {followUp}
         </div>
       )}

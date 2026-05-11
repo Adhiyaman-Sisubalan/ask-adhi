@@ -49,13 +49,13 @@ export default function InputBar({ onSubmit, disabled, shouldFocus }: InputBarPr
       className="flex items-center gap-2 px-[22px] min-h-[44px] shrink-0"
       style={{ borderTop: '0.5px solid var(--border-subtle)', background: 'var(--bg-primary)' }}
     >
-      <span className="font-mono text-[13px] shrink-0" style={{ color: 'var(--accent)' }}>
+      <span className="font-mono text-[14px] shrink-0" style={{ color: 'var(--accent)' }}>
         ❯
       </span>
       <input
         ref={inputRef}
         type="text"
-        className="flex-1 bg-transparent border-none outline-none font-mono text-[16px] sm:text-[13px] min-h-[44px]"
+        className="flex-1 bg-transparent border-none outline-none font-mono text-[16px] sm:text-[14px] min-h-[44px]"
         style={{ color: 'var(--text-primary)' }}
         placeholder="type your question..."
         value={value}
@@ -70,14 +70,14 @@ export default function InputBar({ onSubmit, disabled, shouldFocus }: InputBarPr
           style={{
             color: 'var(--accent)',
             animation: 'blink 1s step-end infinite',
-            fontSize: '13px',
+            fontSize: '14px',
           }}
           aria-hidden="true"
         >
           ▋
         </span>
       )}
-      <span className="hidden sm:inline font-mono text-[11px] shrink-0" style={{ color: 'var(--border)' }}>
+      <span className="hidden sm:inline font-mono text-[12px] shrink-0" style={{ color: 'var(--border)' }}>
         [enter ↵]
       </span>
       <button

@@ -9,7 +9,7 @@ export default function TypingIndicator({ phrase = 'querying memory' }: TypingIn
     <div
       style={{
         fontFamily: 'monospace',
-        fontSize: 12,
+        fontSize: 13,
         lineHeight: 1.8,
         color: 'var(--text-secondary)',
       }}

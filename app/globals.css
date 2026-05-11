@@ -86,7 +86,7 @@ input::placeholder {
   justify-content: center;
   gap: 5px;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 11px;
+  font-size: 12px;
   white-space: nowrap;
   overflow: hidden;
 }

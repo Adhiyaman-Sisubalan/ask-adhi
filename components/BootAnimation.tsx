@@ -121,7 +121,7 @@ export function BootAnimation({ onComplete, skipAnimation = false }: BootAnimati
           <div
             style={{
               fontFamily: 'monospace',
-              fontSize: 12,
+              fontSize: 13,
               lineHeight: 1.9,
               opacity: visibleLines.includes(i) ? 1 : 0,
               transition: 'opacity 0.12s',
@@ -143,7 +143,7 @@ export function BootAnimation({ onComplete, skipAnimation = false }: BootAnimati
               <div style={{ height: 3, borderRadius: 2, background: 'var(--border-subtle)', overflow: 'hidden', flex: 1, maxWidth: 200 }}>
                 <div style={{ height: '100%', width: `${bar1Width}%`, background: 'var(--accent)', borderRadius: 2 }} />
               </div>
-              <span style={{ fontFamily: 'monospace', fontSize: 11, color: 'var(--text-muted)', minWidth: 32 }}>
+              <span style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--text-muted)', minWidth: 34 }}>
                 {bar1Pct}%
               </span>
             </div>
@@ -162,7 +162,7 @@ export function BootAnimation({ onComplete, skipAnimation = false }: BootAnimati
               <div style={{ height: 3, borderRadius: 2, background: 'var(--border-subtle)', overflow: 'hidden', flex: 1, maxWidth: 200 }}>
                 <div style={{ height: '100%', width: `${bar2Width}%`, background: 'var(--accent)', borderRadius: 2 }} />
               </div>
-              <span style={{ fontFamily: 'monospace', fontSize: 11, color: 'var(--text-muted)', minWidth: 32 }}>
+              <span style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--text-muted)', minWidth: 34 }}>
                 {bar2Pct}%
               </span>
             </div>

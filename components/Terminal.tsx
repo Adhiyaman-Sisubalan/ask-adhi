@@ -14,7 +14,7 @@ export default function Terminal({ children, isThinking = false }: TerminalProps
 
   return (
     <div
-      className="flex flex-col w-full sm:max-w-[760px] sm:mx-auto sm:rounded-xl overflow-hidden"
+      className="flex flex-col w-full sm:max-w-[860px] sm:mx-auto sm:rounded-xl overflow-hidden"
       style={{ height: '100dvh', background: 'var(--bg-primary)' }}
     >
       {/* Header */}
@@ -31,7 +31,7 @@ export default function Terminal({ children, isThinking = false }: TerminalProps
         }}
       >
         {/* Left — brand */}
-        <span style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--text-secondary)', flexShrink: 0 }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 13, color: 'var(--text-secondary)', flexShrink: 0 }}>
           adhi<span style={{ color: 'var(--accent)' }}>@</span>portfolio
         </span>
 
@@ -44,7 +44,7 @@ export default function Terminal({ children, isThinking = false }: TerminalProps
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:inline"
-            style={{ fontFamily: 'monospace', fontSize: 11, color: 'var(--text-muted)', textDecoration: 'none' }}
+            style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--text-muted)', textDecoration: 'none' }}
           >
             linkedin ↗
           </a>
@@ -53,7 +53,7 @@ export default function Terminal({ children, isThinking = false }: TerminalProps
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:inline"
-            style={{ fontFamily: 'monospace', fontSize: 11, color: 'var(--text-muted)', textDecoration: 'none' }}
+            style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--text-muted)', textDecoration: 'none' }}
           >
             github ↗
           </a>
@@ -65,7 +65,7 @@ export default function Terminal({ children, isThinking = false }: TerminalProps
               border: 'none',
               cursor: 'pointer',
               color: 'var(--text-muted)',
-              fontSize: 13,
+              fontSize: 14,
               fontFamily: 'monospace',
               padding: 0,
               minWidth: 44,

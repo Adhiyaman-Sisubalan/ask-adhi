@@ -34,7 +34,7 @@ export function StatusBar({ isThinking, messageCount, maxMessages = 20, isLimitR
       <span
         style={{
           fontFamily: 'monospace',
-          fontSize: 10,
+          fontSize: 11,
           color: isThinking ? 'var(--text-subtle)' : 'var(--text-dim)',
         }}
       >
@@ -44,7 +44,7 @@ export function StatusBar({ isThinking, messageCount, maxMessages = 20, isLimitR
           ? `thinking${'.'.repeat(dots)}`
           : 'ready'}
       </span>
-      <span style={{ fontFamily: 'monospace', fontSize: 10, color: 'var(--border)' }}>
+      <span style={{ fontFamily: 'monospace', fontSize: 11, color: 'var(--border)' }}>
         {messageCount} / {maxMessages} messages
       </span>
     </div>
