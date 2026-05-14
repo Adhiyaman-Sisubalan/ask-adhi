@@ -74,9 +74,11 @@ export async function POST(req: Request) {
       await logQuestion({ sessionId, question: latestQuestion })
     }
 
+    const systemWithDate = `Current date: ${new Date().toISOString().split('T')[0]}\n\n${SYSTEM_PROMPT}`
+
     const result = streamText({
       model: anthropic('claude-haiku-4-5'),
-      system: SYSTEM_PROMPT,
+      system: systemWithDate,
       messages: messages as ModelMessage[],
       tools,
       stopWhen: stepCountIs(5),
