@@ -109,8 +109,8 @@ export function BootAnimation({ onComplete, skipAnimation = false }: BootAnimati
     <span style={{ color: 'var(--text-dim)' }}>{'─'.repeat(42)}</span>,
     <>
       <span style={{ color: 'var(--accent)' }}>✔</span>{' '}
-      <span style={{ color: 'var(--text-primary)' }}>ready.</span>{' '}
-      <span style={{ color: 'var(--text-subtle)' }}>ask me anything.</span>
+      <span style={{ color: 'var(--text-primary)' }}>adhi is online.</span>{' '}
+      <span style={{ color: 'var(--text-subtle)' }}>type your question below ↓</span>
     </>,
   ]
 
