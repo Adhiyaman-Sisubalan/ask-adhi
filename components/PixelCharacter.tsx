@@ -64,7 +64,7 @@ export default function PixelCharacter() {
 
     // Terminal bounds + mobile flag
     const updateBounds = () => {
-      const el = document.querySelector('[data-pixel-avoid]')
+      const el = document.querySelector('[data-pixel-avoid] > div')
       if (el) {
         const rect = el.getBoundingClientRect()
         termBoundsRef.current = { left: rect.left, right: rect.right }
