@@ -24,9 +24,21 @@ export default function Home() {
   const [initialChips] = useState<string[]>(() => pickChips(3))
   const handleBootComplete = useCallback(() => setBooted(true), [])
 
-  const sessionIdRef = useRef<string>(uuidv4())
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const [isTyping, setIsTyping] = useState(false)
+
+  const sessionIdRef    = useRef<string>(uuidv4())
+  const scrollRef       = useRef<HTMLDivElement>(null)
   const seenChipQuestionsRef = useRef<Set<string>>(new Set(initialChips))
+  const typingTimerRef  = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const handleTyping = useCallback(() => {
+    setIsTyping(true)
+    if (typingTimerRef.current) clearTimeout(typingTimerRef.current)
+    typingTimerRef.current = setTimeout(() => {
+      setIsTyping(false)
+      typingTimerRef.current = null
+    }, 1000)
+  }, [])
 
   useEffect(() => {
     const accent = pickAccent()
@@ -214,11 +226,13 @@ export default function Home() {
         onSubmit={sendMessage}
         disabled={!booted || isDisabled || isStreaming}
         shouldFocus={booted && !isStreaming}
+        onTyping={handleTyping}
       />
       <StatusBar
         isThinking={isStreaming}
         messageCount={userMessageCount}
         isLimitReached={isDisabled}
+        isTyping={isTyping}
       />
     </Terminal>
     </div>

@@ -37,6 +37,10 @@ export const metadata: Metadata = {
       'A terminal-style portfolio chatbot. Ask me anything about my work, ' +
       'projects, and experience.',
   },
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+  },
   robots: {
     index: true,
     follow: true,

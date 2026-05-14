@@ -6,9 +6,10 @@ interface InputBarProps {
   onSubmit: (value: string) => void
   disabled: boolean
   shouldFocus: boolean
+  onTyping?: () => void
 }
 
-export default function InputBar({ onSubmit, disabled, shouldFocus }: InputBarProps) {
+export default function InputBar({ onSubmit, disabled, shouldFocus, onTyping }: InputBarProps) {
   const [value, setValue] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const prevShouldFocusRef = useRef<boolean>(true)
@@ -65,7 +66,7 @@ export default function InputBar({ onSubmit, disabled, shouldFocus }: InputBarPr
           style={{ color: 'var(--text-primary)' }}
           placeholder="type your question..."
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => { setValue(e.target.value); onTyping?.() }}
           onKeyDown={handleKey}
           disabled={disabled}
           aria-label="Message input"

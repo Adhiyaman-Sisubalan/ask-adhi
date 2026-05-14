@@ -168,3 +168,31 @@ input::placeholder {
   0%, 100% { transform: translateY(0); }
   45%      { transform: translateY(-2px); }
 }
+
+/* ── Mini status-bar character ───────────────────────────────────────────── */
+
+@keyframes mini-jump {
+  0%   { transform: translateY(0);    }
+  40%  { transform: translateY(-4px); }
+  70%  { transform: translateY(-2px); }
+  100% { transform: translateY(0);    }
+}
+
+@keyframes mini-breathe {
+  0%, 100% { transform: translateY(0);    }
+  50%      { transform: translateY(-1px); }
+}
+
+@keyframes mini-sparkle-fade {
+  0%   { opacity: 1; transform: scale(1);   }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+@keyframes mini-zzz {
+  0%, 100% { opacity: 0; }
+  25%, 75% { opacity: 1; }
+}
+
+.mini-char-jump    { animation: mini-jump    0.3s ease-out    forwards; }
+.mini-char-breathe { animation: mini-breathe 2s   ease-in-out infinite; }
+.mini-zzz          { animation: mini-zzz     3s   ease-in-out infinite; }
