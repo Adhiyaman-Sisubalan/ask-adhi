@@ -196,3 +196,9 @@ input::placeholder {
 .mini-char-jump    { animation: mini-jump    0.3s ease-out    forwards; }
 .mini-char-breathe { animation: mini-breathe 2s   ease-in-out infinite; }
 .mini-zzz          { animation: mini-zzz     3s   ease-in-out infinite; }
+
+/* Bug-crawl: from right of character container to left, passing in front */
+@keyframes bug-crawl {
+  from { transform: translate(100px, -50%); }
+  to   { transform: translate(-10px, -50%); }
+}
