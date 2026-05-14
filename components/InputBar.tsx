@@ -45,53 +45,60 @@ export default function InputBar({ onSubmit, disabled, shouldFocus }: InputBarPr
   }
 
   return (
-    <div
-      className="flex items-center gap-2 px-[22px] min-h-[44px] shrink-0"
-      style={{ borderTop: '0.5px solid var(--border-subtle)', background: 'var(--bg-primary)' }}
-    >
-      <span className="font-mono text-[14px] shrink-0" style={{ color: 'var(--accent)' }}>
-        ❯
-      </span>
-      <input
-        ref={inputRef}
-        type="text"
-        className="flex-1 bg-transparent border-none outline-none font-mono text-[16px] sm:text-[14px] min-h-[44px]"
-        style={{ color: 'var(--text-primary)' }}
-        placeholder="type your question..."
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onKeyDown={handleKey}
-        disabled={disabled}
-        aria-label="Message input"
-      />
-      {!isTyping && !disabled && (
-        <span
-          className="font-mono hidden sm:inline"
-          style={{
-            color: 'var(--accent)',
-            animation: 'blink 1s step-end infinite',
-            fontSize: '14px',
-          }}
-          aria-hidden="true"
-        >
-          ▋
+    <div className="shrink-0" style={{ borderTop: '0.5px solid var(--border-subtle)', background: 'var(--bg-primary)' }}>
+      <div className="input-hint px-[22px] pt-2">
+        <span className="hidden sm:inline">
+          // Ask me anything — work, opinions, what I&apos;m building, or what I think about AI
         </span>
-      )}
-      <span className="hidden sm:inline font-mono text-[12px] shrink-0" style={{ color: 'var(--border)' }}>
-        [enter ↵]
-      </span>
-      <button
-        className="flex sm:hidden items-center justify-center w-11 h-11 rounded-full shrink-0 transition-opacity"
-        style={{
-          background: disabled || !value.trim() ? 'var(--border)' : 'var(--accent)',
-          opacity: disabled ? 0.4 : 1,
-        }}
-        onClick={submit}
-        disabled={disabled || !value.trim()}
-        aria-label="Send message"
-      >
-        <span style={{ color: 'var(--bg-primary)', fontSize: 14 }}>↑</span>
-      </button>
+        <span className="sm:hidden">
+          // Ask me anything — work, opinions, what I&apos;m building
+        </span>
+      </div>
+      <div className="flex items-center gap-2 px-[22px] min-h-[44px]">
+        <span className="font-mono text-[14px] shrink-0" style={{ color: 'var(--accent)' }}>
+          ❯
+        </span>
+        <input
+          ref={inputRef}
+          type="text"
+          className="flex-1 bg-transparent border-none outline-none font-mono text-[16px] sm:text-[14px] min-h-[44px]"
+          style={{ color: 'var(--text-primary)' }}
+          placeholder="type your question..."
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={handleKey}
+          disabled={disabled}
+          aria-label="Message input"
+        />
+        {!isTyping && !disabled && (
+          <span
+            className="font-mono hidden sm:inline"
+            style={{
+              color: 'var(--accent)',
+              animation: 'blink 1s step-end infinite',
+              fontSize: '14px',
+            }}
+            aria-hidden="true"
+          >
+            ▋
+          </span>
+        )}
+        <span className="hidden sm:inline font-mono text-[12px] shrink-0" style={{ color: 'var(--border)' }}>
+          [enter ↵]
+        </span>
+        <button
+          className="flex sm:hidden items-center justify-center w-11 h-11 rounded-full shrink-0 transition-opacity"
+          style={{
+            background: disabled || !value.trim() ? 'var(--border)' : 'var(--accent)',
+            opacity: disabled ? 0.4 : 1,
+          }}
+          onClick={submit}
+          disabled={disabled || !value.trim()}
+          aria-label="Send message"
+        >
+          <span style={{ color: 'var(--bg-primary)', fontSize: 14 }}>↑</span>
+        </button>
+      </div>
     </div>
   )
 }

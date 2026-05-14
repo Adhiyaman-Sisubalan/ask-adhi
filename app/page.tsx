@@ -8,7 +8,7 @@ import InputBar from '@/components/InputBar'
 import { BootAnimation } from '@/components/BootAnimation'
 import { StatusBar } from '@/components/StatusBar'
 import { Message } from '@/types/chat'
-import { getContextualChips, pickChips } from '@/lib/suggestions'
+import { excludeSeenChips, getFollowUpChips, pickChips } from '@/lib/suggestions'
 import { pickAccent } from '@/lib/accent'
 import { pickThinkingPhrase } from '@/lib/thinkingPhrases'
 
@@ -65,7 +65,11 @@ export default function Home() {
         thinkingPhrase: pickThinkingPhrase(),
       }
 
-      setMessages((prev) => [...prev, userMsg, assistantMsg])
+      setMessages((prev) => [
+        ...prev.map((m) => (m.role === 'assistant' ? { ...m, chips: undefined } : m)),
+        userMsg,
+        assistantMsg,
+      ])
       setIsStreaming(true)
 
       const history: { role: 'user' | 'assistant'; content: string }[] = [
@@ -84,11 +88,17 @@ export default function Home() {
         })
 
         if (!res.ok) {
-          const data = (await res.json()) as { error: string; message: string }
+          let errMessage = 'An error occurred.'
+          try {
+            const data = (await res.json()) as { error: string; message: string }
+            errMessage = data.message ?? errMessage
+          } catch {
+            // non-JSON error body (e.g. 500 "Internal Server Error")
+          }
           if (res.status === 429) {
             setIsDisabled(true)
           }
-          setErrorMsg(data.message ?? 'An error occurred.')
+          setErrorMsg(errMessage)
           setMessages((prev) => prev.filter((m) => m.id !== assistantId))
           setIsStreaming(false)
           return
@@ -113,14 +123,23 @@ export default function Home() {
           )
         }
 
-        const chips = getContextualChips(accumulated, {
-          answeredQuestion: content.trim(),
-          seenQuestions: seenChipQuestionsRef.current,
-        })
+        const chips = excludeSeenChips(
+          [
+            ...getFollowUpChips(accumulated),
+            'Tell me about your side projects',
+            'What are you building right now?',
+            'What do you think about AI in enterprise?',
+          ],
+          seenChipQuestionsRef.current
+        ).slice(0, 3)
         chips.forEach((chip) => seenChipQuestionsRef.current.add(chip))
         setMessages((prev) =>
           prev.map((m) =>
-            m.id === assistantId ? { ...m, content: accumulated, chips } : m
+            m.id === assistantId
+              ? { ...m, content: accumulated, chips }
+              : m.role === 'assistant'
+              ? { ...m, chips: undefined }
+              : m
           )
         )
       } catch (err) {

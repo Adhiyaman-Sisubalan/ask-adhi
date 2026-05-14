@@ -15,6 +15,7 @@ interface MessageListProps {
 export default function MessageList({ messages, isStreaming, onChipSelect, initialChips }: MessageListProps) {
   const isEmpty = messages.length === 0
   const pairs = groupIntoPairs(messages)
+  const lastPairIndex = pairs.length - 1
 
   if (isEmpty) {
     return (
@@ -41,6 +42,7 @@ export default function MessageList({ messages, isStreaming, onChipSelect, initi
               role="assistant"
               content={pair.assistant.content}
               chips={pair.assistant.chips}
+              showChips={i === lastPairIndex && !isStreaming}
               thinkingPhrase={pair.assistant.thinkingPhrase}
               globalStreaming={isStreaming}
               onChipSelect={onChipSelect}

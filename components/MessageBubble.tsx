@@ -8,6 +8,7 @@ interface MessageBubbleProps {
   role: 'user' | 'assistant'
   content: string
   chips?: string[]
+  showChips?: boolean
   thinkingPhrase?: string
   globalStreaming?: boolean
   onChipSelect: (chip: string) => void
@@ -38,6 +39,7 @@ export default function MessageBubble({
   role,
   content,
   chips,
+  showChips = true,
   thinkingPhrase,
   globalStreaming,
   onChipSelect,
@@ -86,7 +88,7 @@ export default function MessageBubble({
           → {followUp}
         </div>
       )}
-      {chips && chips.length > 0 && (
+      {showChips && chips && chips.length > 0 && (
         <ChipRow
           chips={chips}
           variant="contextual"

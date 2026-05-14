@@ -67,15 +67,30 @@ input::placeholder {
   color: var(--border);
 }
 
+.input-hint {
+  color: var(--text-dim);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Chip button base */
 .chip-btn {
   border-color: var(--border);
   color: var(--text-muted);
   background: transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
 .chip-btn:hover:not(:disabled) {
   border-color: var(--accent);
   color: var(--accent);
+}
+.chip-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .header-companion {
