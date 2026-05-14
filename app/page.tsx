@@ -11,6 +11,7 @@ import { Message } from '@/types/chat'
 import { excludeSeenChips, getFollowUpChips, pickChips } from '@/lib/suggestions'
 import { pickAccent } from '@/lib/accent'
 import { pickThinkingPhrase } from '@/lib/thinkingPhrases'
+import PixelCharacter from '@/components/PixelCharacter'
 
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([])
@@ -158,6 +159,9 @@ export default function Home() {
   if (!checked) return null
 
   return (
+    <>
+    {/* Stacking context above PixelCharacter (z-index 1) */}
+    <div style={{ position: 'relative', zIndex: 2 }} data-pixel-avoid>
     <Terminal isThinking={isStreaming}>
       {/* Single unified scroll body — boot lines + chat in one continuous flow */}
       <div
@@ -168,6 +172,7 @@ export default function Home() {
           display: 'flex',
           flexDirection: 'column',
           padding: '22px 24px',
+          paddingBottom: 68,
           gap: 4,
         }}
       >
@@ -216,5 +221,8 @@ export default function Home() {
         isLimitReached={isDisabled}
       />
     </Terminal>
+    </div>
+    <PixelCharacter />
+    </>
   )
 }
