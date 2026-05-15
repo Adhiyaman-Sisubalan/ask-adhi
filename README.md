@@ -4,7 +4,7 @@ A terminal-style portfolio chatbot that answers questions about me — my work, 
 and experience. Built to be memorable, technically honest, and actually useful for
 anyone who lands on it.
 
-**Live → [ask-adhi.vercel.app](https://ask-adhi.vercel.app)**
+**Live → [adhiyaman-sisubalan.com](https://adhiyaman-sisubalan.com)**
 
 ---
 
@@ -23,7 +23,7 @@ bit of personality without complexity.
 
 ## How it works
 
-The bot is powered by **Claude claude-haiku-4-5** (Anthropic) and uses two complementary
+The bot is powered by **claude-haiku-4-5** (Anthropic) and uses two complementary
 approaches to answer questions:
 
 **RAG (Retrieval-Augmented Generation)**
@@ -44,6 +44,46 @@ feel like a real conversation rather than a fancy FAQ.
 
 ---
 
+## Features
+
+**Conversational UX**
+Contextual follow-up chips appear after every bot response, matched to the topic just
+discussed — so visitors can keep exploring without thinking about what to type next.
+Initial chips are opinionated and personality-forward rather than generic topic labels.
+
+**Boot animation**
+On first load, the terminal runs a mock boot sequence — brewing fintech experience,
+calibrating personality, loading singapore.config — before the chat interface appears.
+Skipped on repeat visits using sessionStorage.
+
+**Pixel art character (desktop)**
+A pixel art developer figure walks along the bottom of the page, cycling through four
+activity states: walking, typing at a desk (with a deployable progress bar), drinking
+coffee or tea (time-aware — coffee before noon, tea after 6pm), and debugging (with a
+floating >bug text that gets squished). The character's color palette matches the session
+accent color. It speeds up when crossing behind the terminal and slows to normal pace on
+the open margins.
+
+**Reactive mobile character (status bar)**
+On mobile, a smaller version of the character lives inside the status bar and reacts to
+conversation state: idle breathing, leaning forward when the user types, sitting
+cross-legged with thinking dots while the bot streams, jumping with a sparkle when a
+response lands, and slumping with zzz when the message limit is reached. During idle
+periods it cycles through micro-animations — leg kicks, coffee sips, and a >bug squish
+— every 5-8 seconds.
+
+**Personality and off-topic handling**
+The bot handles off-topic and funny questions with dry wit — food preferences, movie
+opinions, tabs vs spaces, roasts — drawn from a dedicated knowledge base section.
+Opinion questions about AI and engineering get direct, sharp answers rather than
+deflections.
+
+**SEO and discoverability**
+JSON-LD Person schema, auto-generated sitemap, Google Search Console verified, deployed
+to Singapore region (sin1) for APAC latency.
+
+---
+
 ## Tech stack
 
 | Concern         | Choice                                         |
@@ -51,7 +91,7 @@ feel like a real conversation rather than a fancy FAQ.
 | Framework       | Next.js 15 (App Router)                        |
 | Language        | TypeScript (strict)                            |
 | Styling         | Tailwind CSS v4                                |
-| AI model        | Claude claude-haiku-4-5 (Anthropic)                 |
+| AI model        | claude-haiku-4-5 (Anthropic)                 |
 | AI SDK          | Vercel AI SDK — streaming + tool calling       |
 | Embeddings      | Voyage AI `voyage-3-lite` (free tier)          |
 | Vector store    | Supabase pgvector                              |
@@ -65,7 +105,7 @@ feel like a real conversation rather than a fancy FAQ.
 ```
 Browser
   └── Next.js App Router (chat UI + API routes)
-        └── Claude claude-haiku-4-5 (tool-calling orchestrator)
+        └── claude-haiku-4-5 (tool-calling orchestrator)
               ├── searchKnowledge()   → Supabase pgvector (RAG)
               ├── getProjects()       → static JSON
               ├── getSkills()         → static JSON
@@ -145,34 +185,44 @@ number of tokens.
 ```
 ask-adhi/
 ├── app/
-│   ├── layout.tsx            # Root layout, metadata, OG tags, Analytics
+│   ├── layout.tsx            # Root layout, metadata, JSON-LD, OG tags
 │   ├── page.tsx              # Full-screen chat page
-│   ├── globals.css           # Terminal theme, CSS vars, accent tokens
+│   ├── globals.css           # Terminal theme, CSS vars, accent tokens,
+│   │                         # pixel character keyframes
+│   ├── sitemap.ts            # Auto-generated sitemap for SEO
 │   ├── error.tsx             # Root error boundary
 │   ├── opengraph-image.tsx   # Dynamic OG image (terminal aesthetic)
 │   └── api/chat/route.ts     # POST handler — Claude + streaming + tools
 ├── components/
 │   ├── Terminal.tsx          # Window chrome (title bar, dots)
 │   ├── MessageList.tsx       # Scrollable message history
-│   ├── MessageBubble.tsx     # Individual message rendering
+│   ├── MessageBubble.tsx     # Individual message rendering + follow-up chips
 │   ├── ChipRow.tsx           # Suggested question chips
 │   ├── InputBar.tsx          # Prompt input, mobile send button
-│   └── TypingIndicator.tsx   # Streaming cursor animation
+│   ├── TypingIndicator.tsx   # Streaming cursor animation
+│   ├── BootAnimation.tsx     # Terminal boot sequence on first load
+│   ├── StatusBar.tsx         # Status bar — desktop text + mobile pixel
+│   │                         # character with 5 reaction states
+│   └── PixelCharacter.tsx    # Desktop pixel art character — walks, types,
+│                             # drinks, debugs along the bottom of the page
 ├── data/
 │   ├── resume.txt            # Source document for RAG (not committed)
 │   └── profile.json          # Structured data for tool calls
 ├── lib/
-│   ├── systemPrompt.ts       # Claude system prompt
+│   ├── systemPrompt.ts       # Claude system prompt — persona, rules,
+│   │                         # off-topic handling, opinion guidelines
 │   ├── tools.ts              # Vercel AI SDK tool definitions
 │   ├── embeddings.ts         # Voyage AI embedding functions
 │   ├── vectorStore.ts        # Supabase pgvector search
 │   ├── profileData.ts        # Typed loader for profile.json
-│   ├── suggestions.ts        # Initial chips + keyword chip map
+│   ├── suggestions.ts        # Initial chips, follow-up keyword chip map,
+│   │                         # getFollowUpChips() export
 │   ├── rateLimit.ts          # In-memory per-session rate limiter
 │   ├── env.ts                # Startup env validation
-│   └── accent.ts             # Random accent color picker
+│   ├── accent.ts             # Random accent color picker
+│   └── thinkingPhrases.ts    # Rotating thinking state messages
 ├── scripts/
-│   └── ingest.ts             # One-time resume ingestion script
+│   └── ingest.ts             # Resume ingestion script
 ├── supabase/
 │   └── schema.sql            # pgvector table + match_documents function
 └── types/
@@ -209,16 +259,31 @@ For a personal portfolio with low traffic, it's sufficient. If traffic grows, th
 documented upgrade path is Upstash Redis — two environment variables and a library
 swap, no architecture change.
 
+**Why a pixel art character?**
+Most portfolio sites are static. A walking, typing, debugging character that reacts to
+the conversation makes the experience memorable — and signals immediately that this is a
+developer who enjoys craft. The speed-up behind the terminal is a small detail that most
+visitors won't consciously notice but makes the animation feel considered rather than
+bolted on.
+
+**Why a reactive mobile character instead of a walking one?**
+Horizontal traversal on a 390px screen looks cramped and jittery. A character that
+reacts to conversation state — leaning forward when you type, thinking while the bot
+streams, jumping when a response lands — is more connected to the experience and more
+charming in a small space.
+
 ---
 
 ## Built in phases
 
-This project was built in three agile phases, each driven by a spec prompt passed
+This project was built in five agile phases, each driven by a spec prompt passed
 to Claude Code:
 
-- **Phase 1** — Terminal UI, Claude API streaming, session history, rate limiting
-- **Phase 2** — Supabase pgvector RAG, Voyage AI embeddings, structured tool calling
+- **Phase 1** — Terminal UI, Claude API streaming, session history, rate limiting, boot animation
+- **Phase 2** — Supabase pgvector RAG, Voyage AI embeddings, structured tool calling, follow-up chips
 - **Phase 3** — Vercel deployment, OG image, security headers, mobile responsiveness
+- **Phase 4** — Pixel art character (desktop + mobile), personality and off-topic knowledge base, UX chip rewrites
+- **Phase 5** — Custom domain, SEO (sitemap, JSON-LD, Search Console), metadata updates, response quality improvements
 
 The spec-driven workflow is itself part of the story — each phase had a written
 architecture spec before a line of code was written.
