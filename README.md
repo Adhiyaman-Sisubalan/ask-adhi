@@ -194,33 +194,29 @@ ask-adhi/
 │   ├── opengraph-image.tsx   # Dynamic OG image (terminal aesthetic)
 │   └── api/chat/route.ts     # POST handler — Claude + streaming + tools
 ├── components/
-│   ├── Terminal.tsx          # Window chrome (title bar, dots)
-│   ├── MessageList.tsx       # Scrollable message history
-│   ├── MessageBubble.tsx     # Individual message rendering + follow-up chips
-│   ├── ChipRow.tsx           # Suggested question chips
-│   ├── InputBar.tsx          # Prompt input, mobile send button
-│   ├── TypingIndicator.tsx   # Streaming cursor animation
-│   ├── BootAnimation.tsx     # Terminal boot sequence on first load
-│   ├── StatusBar.tsx         # Status bar — desktop text + mobile pixel
-│   │                         # character with 5 reaction states
-│   └── PixelCharacter.tsx    # Desktop pixel art character — walks, types,
-│                             # drinks, debugs along the bottom of the page
+│   ├── Terminal.tsx
+│   ├── MessageList.tsx
+│   ├── MessageBubble.tsx
+│   ├── ChipRow.tsx
+│   ├── InputBar.tsx
+│   ├── TypingIndicator.tsx
+│   ├── BootAnimation.tsx
+│   ├── StatusBar.tsx
+│   └── PixelCharacter.tsx
 ├── data/
 │   ├── resume.txt            # Source document for RAG (not committed)
 │   └── profile.json          # Structured data for tool calls
 ├── lib/
-│   ├── systemPrompt.ts       # Claude system prompt — persona, rules,
-│   │                         # off-topic handling, opinion guidelines
-│   ├── tools.ts              # Vercel AI SDK tool definitions
-│   ├── embeddings.ts         # Voyage AI embedding functions
-│   ├── vectorStore.ts        # Supabase pgvector search
-│   ├── profileData.ts        # Typed loader for profile.json
-│   ├── suggestions.ts        # Initial chips, follow-up keyword chip map,
-│   │                         # getFollowUpChips() export
-│   ├── rateLimit.ts          # In-memory per-session rate limiter
-│   ├── env.ts                # Startup env validation
-│   ├── accent.ts             # Random accent color picker
-│   └── thinkingPhrases.ts    # Rotating thinking state messages
+│   ├── systemPrompt.ts
+│   ├── tools.ts
+│   ├── embeddings.ts
+│   ├── vectorStore.ts
+│   ├── profileData.ts
+│   ├── suggestions.ts
+│   ├── rateLimit.ts
+│   ├── env.ts
+│   ├── accent.ts
+│   └── thinkingPhrases.ts
 ├── scripts/
 │   └── ingest.ts             # Resume ingestion script
 ├── supabase/
@@ -279,11 +275,11 @@ charming in a small space.
 This project was built in five agile phases, each driven by a spec prompt passed
 to Claude Code:
 
-- **Phase 1** — Terminal UI, Claude API streaming, session history, rate limiting, boot animation
+- **Phase 1** — Terminal UI, Claude streaming, session history, rate limiting, boot animation
 - **Phase 2** — Supabase pgvector RAG, Voyage AI embeddings, structured tool calling, follow-up chips
 - **Phase 3** — Vercel deployment, OG image, security headers, mobile responsiveness
-- **Phase 4** — Pixel art character (desktop + mobile), personality and off-topic knowledge base, UX chip rewrites
-- **Phase 5** — Custom domain, SEO (sitemap, JSON-LD, Search Console), metadata updates, response quality improvements
+- **Phase 4** — Pixel art character (desktop + mobile), personality knowledge base, UX improvements
+- **Phase 5** — Custom domain, SEO (sitemap, JSON-LD, Search Console), metadata
 
 The spec-driven workflow is itself part of the story — each phase had a written
 architecture spec before a line of code was written.
