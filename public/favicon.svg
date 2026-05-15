@@ -1,12 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
-  <rect width="32" height="32" rx="4" fill="#1e2327"/>
-  <text
-    x="50%"
-    y="54%"
-    dominant-baseline="middle"
-    text-anchor="middle"
-    font-family="monospace, Courier New"
-    font-size="22"
-    font-weight="700"
-    fill="#3B82F6">›</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#1e2327"/>
+  <!-- hair -->
+  <rect x="20" y="8" width="24" height="6" fill="#2c1810"/>
+  <!-- face -->
+  <rect x="20" y="14" width="24" height="16" fill="#C68642"/>
+  <!-- eyes -->
+  <rect x="24" y="19" width="4" height="4" fill="#1e2327"/>
+  <rect x="36" y="19" width="4" height="4" fill="#1e2327"/>
+  <!-- mouth -->
+  <rect x="26" y="27" width="12" height="2" fill="#1e2327"/>
+  <!-- body with AS inside -->
+  <rect x="14" y="30" width="36" height="22" fill="#3B82F6"/>
+  <text x="32" y="47" text-anchor="middle"
+    font-family="monospace" font-size="14"
+    font-weight="700" fill="#1e2327">AS</text>
 </svg>
