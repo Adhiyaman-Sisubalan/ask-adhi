@@ -19,13 +19,13 @@ export const metadata: Metadata = {
   description:
     'Ask me anything about my work, projects, and experience. ' +
     'Software developer in Singapore — agentic AI, fintech, Java, React.',
-  metadataBase: new URL('https://ask-adhi.vercel.app'),
+  metadataBase: new URL('https://adhiyaman-sisubalan.com'),
   openGraph: {
     title: 'ask-adhi',
     description:
-      'A terminal-style portfolio chatbot. Ask me anything about my work, ' +
-      'projects, and experience.',
-    url: 'https://ask-adhi.vercel.app',
+      'Terminal-style portfolio chatbot. Ask me anything about my work in agentic AI, ' +
+      'fintech, and enterprise engineering — based in Singapore.',
+    url: 'https://adhiyaman-sisubalan.com',
     siteName: 'ask-adhi',
     locale: 'en_SG',
     type: 'website',
