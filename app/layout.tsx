@@ -52,6 +52,38 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Adhiyaman Sisubalan',
+    alternateName: 'Adhi',
+    url: 'https://adhiyaman-sisubalan.com',
+    jobTitle: 'Software Engineer',
+    description:
+      'Software developer based in Singapore specialising in agentic AI engineering, ' +
+      'enterprise fintech systems, MCP servers, and multi-agent pipelines.',
+    knowsAbout: [
+      'Agentic AI',
+      'MCP Servers',
+      'LangGraph',
+      'Multi-agent Pipelines',
+      'Enterprise Fintech',
+      'Java',
+      'Spring Framework',
+      'React',
+      'TypeScript',
+      'Next.js',
+    ],
+    workLocation: {
+      '@type': 'Place',
+      name: 'Singapore',
+    },
+    sameAs: [
+      'https://github.com/Adhiyaman-Sisubalan',
+      'https://www.linkedin.com/in/adhiyaman-sisubalan/',
+    ],
+  }
+
   return (
     <html lang="en" className={`${geistMono.variable} h-full`} suppressHydrationWarning>
       <head>
@@ -60,6 +92,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `(function(){var s=localStorage.getItem('theme');var p=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',s||p);})();`,
           }}
+        />
+        {/* JSON-LD structured data — Person schema for Google */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body className="h-full overflow-hidden">
