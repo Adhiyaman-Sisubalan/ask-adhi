@@ -40,6 +40,11 @@ create index if not exists question_logs_session_id_idx
 
 alter table question_logs enable row level security;
 
+-- Migration: add answer column to question_logs
+ALTER TABLE question_logs
+ADD COLUMN IF NOT EXISTS answer text
+CHECK (char_length(answer) <= 10000);
+
 -- Match function used by vectorStore.ts
 create or replace function match_documents(
   query_embedding vector(512),

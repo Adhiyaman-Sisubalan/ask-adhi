@@ -70,9 +70,6 @@ export async function POST(req: Request) {
 
   try {
     const latestQuestion = getLatestUserQuestion(messages)
-    if (latestQuestion) {
-      await logQuestion({ sessionId, question: latestQuestion })
-    }
 
     const systemWithDate = `Current date: ${new Date().toISOString().split('T')[0]}\n\n${SYSTEM_PROMPT}`
 
@@ -82,6 +79,15 @@ export async function POST(req: Request) {
       messages: messages as ModelMessage[],
       tools,
       stopWhen: stepCountIs(5),
+      onFinish: async ({ text }) => {
+        if (latestQuestion) {
+          await logQuestion({
+            sessionId,
+            question: latestQuestion,
+            answer: text,
+          })
+        }
+      },
     })
 
     return result.toTextStreamResponse()

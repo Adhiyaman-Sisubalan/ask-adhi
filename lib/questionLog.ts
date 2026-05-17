@@ -15,9 +15,10 @@ function getSupabase(): SupabaseClient {
 interface QuestionLogInput {
   sessionId: string
   question: string
+  answer?: string
 }
 
-export async function logQuestion({ sessionId, question }: QuestionLogInput): Promise<void> {
+export async function logQuestion({ sessionId, question, answer }: QuestionLogInput): Promise<void> {
   const trimmed = question.trim()
   if (!trimmed) return
 
@@ -26,6 +27,7 @@ export async function logQuestion({ sessionId, question }: QuestionLogInput): Pr
     .insert({
       session_id: sessionId,
       question: trimmed.slice(0, 2000),
+      ...(answer ? { answer: answer.trim().slice(0, 10000) } : {}),
     })
 
   if (error) {
