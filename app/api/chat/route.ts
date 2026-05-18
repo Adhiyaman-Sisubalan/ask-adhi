@@ -73,18 +73,23 @@ export async function POST(req: Request) {
 
     const systemWithDate = `Current date: ${new Date().toISOString().split('T')[0]}\n\n${SYSTEM_PROMPT}`
 
+    let accumulatedAnswer = ''
+
     const result = streamText({
       model: anthropic('claude-haiku-4-5'),
       system: systemWithDate,
       messages: messages as ModelMessage[],
       tools,
       stopWhen: stepCountIs(5),
-      onFinish: async ({ text }) => {
-        if (latestQuestion) {
+      onStepFinish: ({ text }) => {
+        if (text) accumulatedAnswer += text
+      },
+      onFinish: async () => {
+        if (latestQuestion && accumulatedAnswer) {
           await logQuestion({
             sessionId,
             question: latestQuestion,
-            answer: text,
+            answer: accumulatedAnswer.trim(),
           })
         }
       },
